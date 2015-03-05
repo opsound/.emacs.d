@@ -99,6 +99,7 @@
 (set-default 'truncate-lines t)
 (setq-default indent-tabs-mode nil)
 
+(defalias 'yes-or-no-p 'y-or-n-p)
 (recentf-mode 1)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups" )))
