@@ -6,10 +6,8 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(ac-js2
-                      ace-jump-mode
-                      auctex neotree
-                      auto-complete
+(defvar my-packages '(ace-jump-mode
+                      ag
                       autopair
                       cider
                       company
@@ -19,32 +17,24 @@
                       evil-exchange
                       evil-iedit-state
                       evil-leader
+                      evil-nerd-commenter
                       evil-numbers
                       evil-surround
                       exec-path-from-shell
-                      expand-region
                       flx-ido
-                      flycheck
-                      flymake-rust
                       geiser
                       ggtags
-                      go-mode
-                      haskell-mode
                       helm
                       helm-gtags
-                      helm-projectile
                       helm-swoop
                       ido-vertical-mode
                       iedit
-                      js2-mode
-                      key-chord
                       magit
                       monokai-theme
                       org
                       paredit
                       projectile
                       rainbow-delimiters
-                      rust-mode
                       smex
                       solarized-theme
                       yasnippet
@@ -87,19 +77,26 @@
 
 (autopair-global-mode)
 
+(global-ede-mode t)
+
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 
 (setq ring-bell-function 'ignore)
+
 (setq inhibit-startup-message t)
 
 (show-paren-mode t)
+
 (global-hl-line-mode)
+
 (set-default 'truncate-lines t)
+
 (setq-default indent-tabs-mode nil)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+
 (recentf-mode 1)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups" )))
@@ -107,9 +104,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (load-theme 'monokai t)
-(set-default-font "Consolas-10")
 
-(global-ede-mode t)
+(set-default-font "Consolas-10")
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
@@ -118,6 +114,7 @@
 
 (define-key key-translation-map [?\C-h] [?\C-?])
 
+(global-set-key (kbd "<f1>") 'help-command)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
@@ -130,17 +127,20 @@
 (define-key evil-normal-state-map (kbd "C-t") 'helm-gtags-pop-stack)
 (define-key evil-normal-state-map (kbd "C-k") 'helm-gtags-dwim)
 (define-key evil-normal-state-map (kbd "C-'") 'semantic-goto-definition)
-
 (define-key evil-normal-state-map (kbd "C-;") 'iedit-mode)
 (define-key evil-normal-state-map (kbd "M-*") 'semantic-pop-tag-mark)
 (define-key evil-normal-state-map (kbd "M-0") 'delete-window)
 (define-key evil-normal-state-map (kbd "M-1") 'delete-other-windows)
-(define-key evil-normal-state-map (kbd "M-2") 'split-window-vertically)
+(define-key evil-normal-state-map (kbd "M-2") '(lambda () split-window-vertically))
 (define-key evil-normal-state-map (kbd "M-3") 'split-window-horizontally)
+
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
+(evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
 
 (evil-leader/set-leader "<SPC>")
+(evil-leader/set-key "<SPC>" 'ace-jump-word-mode)
 (evil-leader/set-key "/" 'projectile-ag)
+(evil-leader/set-key ";" 'evilnc-comment-or-uncomment-lines)
 (evil-leader/set-key "ase" 'eshell)
 (evil-leader/set-key "aP" 'package-list-packages)
 (evil-leader/set-key "cc" 'projectile-compile-project)
@@ -172,26 +172,14 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda()
-            (paredit-mode)
+            (paredit-mode 1)
             (rainbow-delimiters-mode)))
 
 (add-hook 'clojure-mode
           (lambda()
-            (paredit-mode)
+            (paredit-mode 1)
+            (cider-mode 1)
             (clj-refactor-mode 1)
             (rainbow-delimiters-mode)))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (clj-refactor cider rainbow-delimiters neotree auctex exec-path-from-shell yasnippet helm-projectile helm-swoop helm-gtags helm solarized-theme monokai-theme zenburn-theme geiser flymake-rust rust-mode haskell-mode ac-js2 js2-mode flycheck go-mode auto-complete smex paredit autopair expand-region ggtags magit company key-chord ido-vertical-mode flx-ido projectile ace-jump-mode evil-iedit-state evil-surround evil-leader evil-numbers evil-exchange evil))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; Custom set variables
