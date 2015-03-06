@@ -54,4 +54,4 @@ save the pointer marker if tag is found"
    (t
     (shell-command (concat "start explorer /e,\"" (replace-regexp-in-string "/" "\\\\" default-directory) "\"")))))
 
-(provide 'my-extensions)
+(provide 'extensions)

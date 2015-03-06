@@ -45,6 +45,9 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(require 'extensions)
+
 (evil-mode 1)
 (global-evil-surround-mode)
 (global-evil-leader-mode)
@@ -53,9 +56,13 @@
 (global-company-mode)
 (setq company-idle-delay 0)
 
+;; (golden-ratio-mode 1)
+;; (setq golden-ratio-auto-scale t)
+
 (smex-initialize)
 
 (projectile-global-mode 1)
+(setq projectile-indexing-method 'alien)
 
 (yas-global-mode 1)
 
@@ -82,6 +89,9 @@
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
+(defadvice split-window-horizontally (after rebalance-windows activate)
+  (balance-windows))
+(ad-activate 'split-window-horizontally)
 
 (setq ring-bell-function 'ignore)
 
@@ -131,7 +141,7 @@
 (define-key evil-normal-state-map (kbd "M-*") 'semantic-pop-tag-mark)
 (define-key evil-normal-state-map (kbd "M-0") 'delete-window)
 (define-key evil-normal-state-map (kbd "M-1") 'delete-other-windows)
-(define-key evil-normal-state-map (kbd "M-2") '(lambda () split-window-vertically))
+(define-key evil-normal-state-map (kbd "M-2") 'split-window-vertically)
 (define-key evil-normal-state-map (kbd "M-3") 'split-window-horizontally)
 
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
@@ -149,6 +159,7 @@
 (evil-leader/set-key "fs" 'save-buffer)
 (evil-leader/set-key "k" 'helm-gtags-dwim)
 (evil-leader/set-key "o" 'helm-mini)
+(evil-leader/set-key "pd" 'projectile-dired)
 (evil-leader/set-key "pf" 'projectile-find-file)
 (evil-leader/set-key "ps" 'projectile-switch-project)
 (evil-leader/set-key "sa" 'ag)
@@ -168,6 +179,7 @@
             (setq evil-shift-width c-basic-offset)
             (semantic-mode)
             (rainbow-delimiters-mode)
+            (hs-minor-mode)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'emacs-lisp-mode-hook
@@ -183,3 +195,17 @@
             (rainbow-delimiters-mode)))
 
 ;; Custom set variables
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (golden-ratio exec-path-from-shell ag zenburn-theme solarized-theme smex rainbow-delimiters projectile monokai-theme magit ido-vertical-mode helm-swoop helm-gtags ggtags geiser flx-ido evil-surround evil-numbers evil-nerd-commenter evil-leader evil-iedit-state evil-exchange company clj-refactor autopair ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
