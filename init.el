@@ -56,9 +56,6 @@
 (global-company-mode)
 (setq company-idle-delay 0)
 
-;; (golden-ratio-mode 1)
-;; (setq golden-ratio-auto-scale t)
-
 (smex-initialize)
 
 (projectile-global-mode 1)
@@ -89,8 +86,6 @@
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
-(defadvice split-window-horizontally (after rebalance-windows activate)
-  (balance-windows))
 (ad-activate 'split-window-horizontally)
 
 (setq ring-bell-function 'ignore)
@@ -134,11 +129,7 @@
 
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 
-(define-key evil-normal-state-map (kbd "C-t") 'helm-gtags-pop-stack)
-(define-key evil-normal-state-map (kbd "C-k") 'helm-gtags-dwim)
-(define-key evil-normal-state-map (kbd "C-'") 'semantic-goto-definition)
 (define-key evil-normal-state-map (kbd "C-;") 'iedit-mode)
-(define-key evil-normal-state-map (kbd "M-*") 'semantic-pop-tag-mark)
 (define-key evil-normal-state-map (kbd "M-0") 'delete-window)
 (define-key evil-normal-state-map (kbd "M-1") 'delete-other-windows)
 (define-key evil-normal-state-map (kbd "M-2") 'split-window-vertically)
@@ -154,22 +145,35 @@
 (evil-leader/set-key "ase" 'eshell)
 (evil-leader/set-key "aP" 'package-list-packages)
 (evil-leader/set-key "cc" 'projectile-compile-project)
+(evil-leader/set-key "e" 'eval-last-sexp)
 (evil-leader/set-key "fed" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el")))
 (evil-leader/set-key "ff" 'ido-find-file)
 (evil-leader/set-key "fs" 'save-buffer)
-(evil-leader/set-key "k" 'helm-gtags-dwim)
 (evil-leader/set-key "o" 'helm-mini)
 (evil-leader/set-key "pd" 'projectile-dired)
 (evil-leader/set-key "pf" 'projectile-find-file)
 (evil-leader/set-key "ps" 'projectile-switch-project)
 (evil-leader/set-key "sa" 'ag)
-(evil-leader/set-key "sf" 'xref-find-definitions)
-(evil-leader/set-key "st" 'xref-pop-marker-stack)
 (evil-leader/set-key "sl" 'helm-semantic-or-imenu)
 (evil-leader/set-key "ss" 'helm-swoop)
 (evil-leader/set-key (kbd "C-s s") 'helm-multi-swoop-all)
 (evil-leader/set-key "xdw" 'delete-trailing-whitespace)
 (evil-leader/set-key (kbd "C-k") 'helm-gtags-find-tag-other-window)
+
+(evil-leader/set-key-for-mode 'clojure-mode "k" 'cider-jump-to-var)
+(evil-leader/set-key-for-mode 'clojure-mode "t" 'cider-jump-back)
+
+(evil-leader/set-key-for-mode 'c-mode "k" 'helm-gtags-dwim)
+(evil-leader/set-key-for-mode 'c-mode "t" 'helm-gtags-pop-stack)
+(evil-leader/set-key-for-mode 'c-mode "K" 'semantic-goto-definition)
+(evil-leader/set-key-for-mode 'c-mode "T" 'semantic-pop-tag-mark)
+
+(evil-leader/set-key-for-mode 'emacs-lisp-mode "k" 'xref-find-definitions)
+(evil-leader/set-key-for-mode 'emacs-lisp-mode "t" 'xref-pop-marker-stack)
+
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (hs-minor-mode)))
 
 (add-hook 'c-mode-hook
           (lambda()
@@ -179,7 +183,6 @@
             (setq evil-shift-width c-basic-offset)
             (semantic-mode)
             (rainbow-delimiters-mode)
-            (hs-minor-mode)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'emacs-lisp-mode-hook
@@ -189,6 +192,7 @@
 
 (add-hook 'clojure-mode
           (lambda()
+            (local-unset-key (kbd "M-."))
             (paredit-mode 1)
             (cider-mode 1)
             (clj-refactor-mode 1)
@@ -202,7 +206,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (golden-ratio exec-path-from-shell ag zenburn-theme solarized-theme smex rainbow-delimiters projectile monokai-theme magit ido-vertical-mode helm-swoop helm-gtags ggtags geiser flx-ido evil-surround evil-numbers evil-nerd-commenter evil-leader evil-iedit-state evil-exchange company clj-refactor autopair ace-jump-mode))))
+    (exec-path-from-shell ag zenburn-theme solarized-theme smex rainbow-delimiters projectile monokai-theme magit ido-vertical-mode helm-swoop helm-gtags ggtags geiser flx-ido evil-surround evil-numbers evil-nerd-commenter evil-leader evil-iedit-state evil-exchange company clj-refactor autopair ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -54,4 +54,23 @@ save the pointer marker if tag is found"
    (t
     (shell-command (concat "start explorer /e,\"" (replace-regexp-in-string "/" "\\\\" default-directory) "\"")))))
 
+;;; eval-last-sexp
+(defadvice eval-last-sexp (around evil)
+  "Last sexp ends at point."
+  (when (evil-normal-state-p)
+    (save-excursion
+      (unless (or (eobp) (eolp)) (forward-char))
+      ad-do-it)))
+
+;;; pp-eval-last-sexp
+(defadvice pp-eval-last-sexp (around evil)
+  "Last sexp ends at point."
+  (when (evil-normal-state-p)
+    (save-excursion
+      (unless (or (eobp) (eolp)) (forward-char))
+      ad-do-it)))
+
+(defadvice split-window-horizontally (after rebalance-windows activate)
+  (balance-windows))
+
 (provide 'extensions)
