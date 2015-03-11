@@ -1,6 +1,6 @@
 (defvar semantic-tags-location-ring (make-ring 20))
 
-(defun semantic-goto-definition (point)
+(defun stro/semantic-goto-definition (point)
   "Goto definition using semantic-ia-fast-jump
 save the pointer marker if tag is found"
   (interactive "d")
@@ -13,7 +13,7 @@ save the pointer marker if tag is found"
      (set-marker (ring-remove semantic-tags-location-ring 0) nil nil)
      (signal (car err) (cdr err)))))
 
-(defun semantic-goto-definition-mouse (evt)
+(defun stro/semantic-goto-definition-mouse (evt)
   (interactive "e")
   (condition-case err
       (progn
@@ -24,7 +24,7 @@ save the pointer marker if tag is found"
      (set-marker (ring-remove semantic-tags-location-ring 0) nil nil)
      (signal (car err) (cdr err)))))
 
-(defun semantic-pop-tag-mark ()
+(defun stro/semantic-pop-tag-mark ()
   "popup the tag save by semantic-goto-definition"
   (interactive)
   (if (ring-empty-p semantic-tags-location-ring)
@@ -38,7 +38,7 @@ save the pointer marker if tag is found"
         (goto-char pos))
       (set-marker marker nil nil))))
 
-(defun locate-current-file-in-explorer ()
+(defun stro/locate-current-file-in-explorer ()
   (interactive)
   (cond
    ;; In buffers with file name
@@ -54,21 +54,10 @@ save the pointer marker if tag is found"
    (t
     (shell-command (concat "start explorer /e,\"" (replace-regexp-in-string "/" "\\\\" default-directory) "\"")))))
 
-;;; eval-last-sexp
-(defadvice eval-last-sexp (around evil)
-  "Last sexp ends at point."
-  (when (evil-normal-state-p)
-    (save-excursion
-      (unless (or (eobp) (eolp)) (forward-char))
-      ad-do-it)))
-
-;;; pp-eval-last-sexp
-(defadvice pp-eval-last-sexp (around evil)
-  "Last sexp ends at point."
-  (when (evil-normal-state-p)
-    (save-excursion
-      (unless (or (eobp) (eolp)) (forward-char))
-      ad-do-it)))
+(defun stro/altenate-buffer ()
+  "Switch back and forth between current and last buffer"
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) t)))
 
 (defadvice split-window-horizontally (after rebalance-windows activate)
   (balance-windows))
