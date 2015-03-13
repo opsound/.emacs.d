@@ -145,48 +145,55 @@
 (evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
 
 (evil-leader/set-leader "<SPC>")
-(evil-leader/set-key "<SPC>" 'ace-jump-word-mode)
-(evil-leader/set-key "TAB" 'stro/alternate-buffer)
-(evil-leader/set-key "/" 'projectile-ag)
-(evil-leader/set-key ";" 'evilnc-comment-or-uncomment-lines)
-(evil-leader/set-key "ase" 'eshell)
-(evil-leader/set-key "aP" 'package-list-packages)
-(evil-leader/set-key "cc" 'projectile-compile-project)
-(evil-leader/set-key "d" 'dired-jump)
-(evil-leader/set-key "e" 'eval-last-sexp)
-(evil-leader/set-key "fed" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el")))
-(evil-leader/set-key "ff" 'ido-find-file)
-(evil-leader/set-key "fs" 'save-buffer)
-(evil-leader/set-key "o" 'helm-mini)
-(evil-leader/set-key "pd" 'projectile-dired)
-(evil-leader/set-key "pf" 'projectile-find-file)
-(evil-leader/set-key "ps" 'projectile-switch-project)
-(evil-leader/set-key "sa" 'ag)
-(evil-leader/set-key "sl" 'helm-semantic-or-imenu)
-(evil-leader/set-key "ss" 'helm-swoop)
-(evil-leader/set-key (kbd "C-s s") 'helm-multi-swoop-all)
-(evil-leader/set-key "xdw" 'delete-trailing-whitespace)
+(evil-leader/set-key
+  "<SPC>" 'ace-jump-word-mode
+  "TAB" 'stro/alternate-buffer
+  "/" 'projectile-ag
+  ";" 'evilnc-comment-or-uncomment-lines
+  "ase" 'eshell
+  "aP" 'package-list-packages
+  "cc" 'projectile-compile-project
+  "d" 'dired-jump
+  "e" 'eval-last-sexp
+  "fed" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
+  "ff" 'ido-find-file
+  "fs" 'save-buffer
+  "o" 'helm-mini
+  "pd" 'projectile-dired
+  "pf" 'projectile-find-file
+  "ps" 'projectile-switch-project
+  "sa" 'ag
+  "sl" 'helm-semantic-or-imenu
+  "ss" 'helm-swoop
+  (kbd "C-s s") 'helm-multi-swoop-all
+  "xdw" 'delete-trailing-whitespace
+  "xs" 'perps-switch)
 
-(evil-leader/set-key-for-mode 'clojure-mode "k" 'cider-jump-to-var)
-(evil-leader/set-key-for-mode 'clojure-mode "t" 'cider-jump-back)
+(evil-leader/set-key-for-mode 'clojure-mode
+  "k" 'cider-jump-to-var
+  "t" 'cider-jump-back)
 
-(evil-leader/set-key-for-mode 'c++-mode "k" 'helm-gtags-dwim)
-(evil-leader/set-key-for-mode 'c++-mode "t" 'helm-gtags-pop-stack)
-(evil-leader/set-key-for-mode 'c++-mode (kbd "C-k") 'helm-gtags-find-tag-other-window)
-(evil-leader/set-key-for-mode 'c++-mode "K" 'stro/semantic-goto-definition)
-(evil-leader/set-key-for-mode 'c++-mode "T" 'stro/semantic-pop-tag-mark)
+(evil-leader/set-key-for-mode 'c++-mode
+  "k" 'helm-gtags-dwim
+  "t" 'helm-gtags-pop-stack
+  (kbd "C-k") 'helm-gtags-find-tag-other-window
+  "K" 'stro/semantic-goto-definition
+  "T" 'stro/semantic-pop-tag-mark)
 
-(evil-leader/set-key-for-mode 'c-mode "k" 'helm-gtags-dwim)
-(evil-leader/set-key-for-mode 'c-mode "t" 'helm-gtags-pop-stack)
-(evil-leader/set-key-for-mode 'c-mode (kbd "C-k") 'helm-gtags-find-tag-other-window)
-(evil-leader/set-key-for-mode 'c-mode "K" 'semantic-goto-definition)
-(evil-leader/set-key-for-mode 'c-mode "T" 'semantic-pop-tag-mark)
+(evil-leader/set-key-for-mode 'c-mode
+  "k" 'helm-gtags-dwim
+  "t" 'helm-gtags-pop-stack
+  (kbd "C-k") 'helm-gtags-find-tag-other-window
+  "K" 'semantic-goto-definition
+  "T" 'semantic-pop-tag-mark)
 
-(evil-leader/set-key-for-mode 'emacs-lisp-mode "k" 'xref-find-definitions)
-(evil-leader/set-key-for-mode 'emacs-lisp-mode "t" 'xref-pop-marker-stack)
+(evil-leader/set-key-for-mode 'emacs-lisp-mode
+  "k" 'xref-find-definitions
+  "t" 'xref-pop-marker-stack)
 
-(evil-leader/set-key-for-mode 'python-mode "k" 'jedi:goto-definition)
-(evil-leader/set-key-for-mode 'python-mode "t" 'jedi:goto-definition-pop-marker)
+(evil-leader/set-key-for-mode 'python-mode
+  "k" 'jedi:goto-definition
+  "t" 'jedi:goto-definition-pop-marker)
 
 (add-hook 'prog-mode-hook
           (lambda ()
