@@ -36,6 +36,7 @@
                       paredit
                       projectile
                       rainbow-delimiters
+                      rust-mode
                       smex
                       solarized-theme
                       yasnippet
@@ -158,6 +159,7 @@
   "fed" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "ff" 'ido-find-file
   "fs" 'save-buffer
+  "g" 'magit-status
   "o" 'helm-mini
   "pd" 'projectile-dired
   "pf" 'projectile-find-file
@@ -166,8 +168,8 @@
   "sl" 'helm-semantic-or-imenu
   "ss" 'helm-swoop
   (kbd "C-s s") 'helm-multi-swoop-all
-  "xdw" 'delete-trailing-whitespace
-  "xs" 'perps-switch)
+  "X" 'delete-trailing-whitespace
+  "x" 'smex)
 
 (evil-leader/set-key-for-mode 'clojure-mode
   "k" 'cider-jump-to-var
@@ -198,6 +200,7 @@
 (add-hook 'prog-mode-hook
           (lambda ()
             (hs-minor-mode)
+            (aggresive-indent-mode)
             (rainbow-delimiters-mode)))
 
 (add-hook 'c-mode-hook
