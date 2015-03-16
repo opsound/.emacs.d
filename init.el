@@ -8,6 +8,7 @@
 
 (defvar my-packages '(ace-jump-mode
                       ag
+                      autopair
                       cider
                       company
                       clj-refactor
