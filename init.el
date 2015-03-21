@@ -13,6 +13,7 @@
                       company
                       clj-refactor
                       clojure-mode
+                      elisp-slime-nav
                       evil
                       evil-exchange
                       evil-iedit-state
@@ -193,8 +194,8 @@
   "T" 'semantic-pop-tag-mark)
 
 (evil-leader/set-key-for-mode 'emacs-lisp-mode
-  "k" 'xref-find-definitions
-  "t" 'xref-pop-marker-stack)
+  "k" 'elisp-slime-nav-find-elisp-thing-at-point
+  "t" 'pop-tag-mark)
 
 (evil-leader/set-key-for-mode 'python-mode
   "k" 'jedi:goto-definition
@@ -221,6 +222,7 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
+            (elisp-slime-nav-mode 1)
             (paredit-mode 1)))
 
 (add-hook 'clojure-mode
