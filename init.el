@@ -172,6 +172,9 @@
   "x" 'smex)
 
 (evil-leader/set-key-for-mode 'clojure-mode
+  "cj" 'cider-jack-in
+  "e" 'cider-eval-last-sexp
+  "cb" 'cider-eval-buffer
   "k" 'cider-jump-to-var
   "t" 'cider-jump-back)
 
@@ -200,7 +203,6 @@
 (add-hook 'prog-mode-hook
           (lambda ()
             (hs-minor-mode)
-            (aggresive-indent-mode)
             (rainbow-delimiters-mode)))
 
 (add-hook 'c-mode-hook
