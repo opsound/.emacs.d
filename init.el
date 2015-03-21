@@ -195,6 +195,7 @@
 
 (evil-leader/set-key-for-mode 'emacs-lisp-mode
   "k" 'elisp-slime-nav-find-elisp-thing-at-point
+  "K" 'elisp-slime-nav-describe-elisp-thing-at-point
   "t" 'pop-tag-mark)
 
 (evil-leader/set-key-for-mode 'python-mode
@@ -208,11 +209,11 @@
 
 (add-hook 'c-mode-hook
           (lambda ()
-            (setq indent-tabs-mode t)
-            (setq tab-width 4)
-            (setq c-basic-offset 4)
-            (setq evil-shift-width c-basic-offset)
             (semantic-mode)
+            (setq-local indent-tabs-mode t)
+            (setq-local tab-width 4)
+            (setq-local c-basic-offset 4)
+            (setq-local evil-shift-width c-basic-offset)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'c++-mode-hook
