@@ -8,7 +8,6 @@
 
 (defvar my-packages '(ace-jump-mode
                       ag
-                      autopair
                       cider
                       company
                       clj-refactor
@@ -22,6 +21,7 @@
                       evil-numbers
                       evil-surround
                       exec-path-from-shell
+                      expand-region
                       flx-ido
                       jedi
                       geiser
@@ -38,6 +38,7 @@
                       projectile
                       rainbow-delimiters
                       rust-mode
+                      smartparens
                       smex
                       solarized-theme
                       yasnippet
@@ -80,7 +81,7 @@
 
 (setq-default fill-column 120)
 
-(autopair-global-mode)
+(smartparens-global-mode)
 
 (setq jedi:complete-on-dot t)
 
@@ -235,5 +236,12 @@
 (add-hook 'python-mode-hook
           (lambda ()
             (jedi:setup)))
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (setq js2-basic-offset 2)
+            (setq js2-strict-trailing-comma-warning nil)
+            (tern-mode)))
 
 ;; Custom set variables
