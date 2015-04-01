@@ -8,9 +8,11 @@
 
 (defvar my-packages '(ace-jump-mode
                       ag
+                      anaconda-mode
                       autopair
                       cider
                       company
+                      company-jedi
                       clj-refactor
                       clojure-mode
                       elisp-slime-nav
@@ -63,6 +65,9 @@
 
 (smex-initialize)
 
+(yas-global-mode)
+(yas-reload-all)
+
 (projectile-global-mode 1)
 (setq projectile-indexing-method 'alien)
 
@@ -104,6 +109,8 @@
 (set-default 'truncate-lines t)
 
 (setq-default indent-tabs-mode nil)
+
+(setq evilnc-hotkey-comment-operator nil)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -153,7 +160,7 @@
   "<SPC>" 'ace-jump-word-mode
   "TAB" 'stro/alternate-buffer
   "/" 'projectile-ag
-  ";" 'evilnc-comment-or-uncomment-lines
+  ";" 'evilnc-comment-operator
   "ase" 'eshell
   "aP" 'package-list-packages
   "cc" 'projectile-compile-project
@@ -192,8 +199,8 @@
   "k" 'helm-gtags-dwim
   "t" 'helm-gtags-pop-stack
   (kbd "C-k") 'helm-gtags-find-tag-other-window
-  "K" 'semantic-goto-definition
-  "T" 'semantic-pop-tag-mark)
+  "K" 'stro/semantic-goto-definition
+  "T" 'stro/semantic-pop-tag-mark)
 
 (evil-leader/set-key-for-mode 'emacs-lisp-mode
   "k" 'elisp-slime-nav-find-elisp-thing-at-point
@@ -212,6 +219,7 @@
 (add-hook 'c-mode-hook
           (lambda ()
             (semantic-mode)
+            (yas-minor-mode)
             (setq-local indent-tabs-mode t)
             (setq-local tab-width 4)
             (setq-local c-basic-offset 4)
