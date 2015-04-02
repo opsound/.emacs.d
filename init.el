@@ -185,7 +185,7 @@
   "cj" 'cider-jack-in
   "e" 'cider-eval-last-sexp
   "cb" 'cider-eval-buffer
-  "k" 'cider-jump-to-var
+  "k" (lambda () (interactive) (cider-jump-to-var 1))
   "t" 'cider-jump-back)
 
 (evil-leader/set-key-for-mode 'c++-mode
@@ -250,6 +250,7 @@
 (add-hook 'js2-mode-hook
           (lambda ()
             (setq js2-basic-offset 2)
+            (setq-local evil-shift-width js2-basic-offset)
             (setq js2-strict-trailing-comma-warning nil)
             (tern-mode)))
 
