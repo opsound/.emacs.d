@@ -63,6 +63,6 @@ save the pointer marker if tag is found"
   (balance-windows))
 
 (defadvice delete-window (after rebalance-windows activate)
-  (balance-windows)
+  (balance-windows))
 
 (provide 'extensions)
