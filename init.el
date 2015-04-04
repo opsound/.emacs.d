@@ -138,16 +138,16 @@
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
 (global-set-key (kbd "C-j") 'newline-and-indent)
+(global-set-key (kbd "M-0") 'delete-window)
+(global-set-key (kbd "M-1") 'delete-other-windows)
+(global-set-key (kbd "M-2") 'split-window-vertically)
+(global-set-key (kbd "M-3") 'split-window-horizontally)
 
 (global-set-key [f12] 'stro/locate-current-file-in-explorer)
 
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 
 (define-key evil-normal-state-map (kbd "C-;") 'iedit-mode)
-(define-key evil-normal-state-map (kbd "M-0") 'delete-window)
-(define-key evil-normal-state-map (kbd "M-1") 'delete-other-windows)
-(define-key evil-normal-state-map (kbd "M-2") 'split-window-vertically)
-(define-key evil-normal-state-map (kbd "M-3") 'split-window-horizontally)
 
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
 (define-key evil-visual-state-map (kbd "x") 'er/expand-region)
