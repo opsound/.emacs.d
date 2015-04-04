@@ -133,7 +133,6 @@
 
 (define-key key-translation-map [?\C-h] [?\C-?])
 
-(global-set-key (kbd "<f1>") 'help-command)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
@@ -161,18 +160,19 @@
   "/" 'projectile-ag
   ";" 'evilnc-comment-operator
   "?" 'ag
+  "A" 'package-list-packages
   "c" 'projectile-compile-project
   "d" 'dired-jump
   "e" 'eval-last-sexp
   "f" 'ido-find-file
   "g" 'magit-status
+  "h" 'help-command
   "l" 'helm-semantic-or-imenu
   "o" 'helm-mini
-  "pd" 'projectile-dired
-  "pf" 'projectile-find-file
-  "ps" 'projectile-switch-project
-  "P" 'package-list-packages
-  "Q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
+  "[" 'projectile-find-file
+  "]" 'projectile-dired
+  "p" 'projectile-switch-project
+  "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
   "w" 'helm-swoop
   "W" 'helm-multi-swoop-all
