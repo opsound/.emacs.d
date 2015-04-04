@@ -62,4 +62,7 @@ save the pointer marker if tag is found"
 (defadvice split-window-horizontally (after rebalance-windows activate)
   (balance-windows))
 
+(defadvice delete-window (after rebalance-windows activate)
+  (balance-windows)
+
 (provide 'extensions)
