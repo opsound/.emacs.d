@@ -41,7 +41,6 @@
                       projectile
                       rainbow-delimiters
                       rust-mode
-                      smartparens
                       smex
                       solarized-theme
                       yasnippet
@@ -87,7 +86,7 @@
 
 (setq-default fill-column 120)
 
-(smartparens-global-mode)
+(autopair-global-mode)
 
 (setq jedi:complete-on-dot t)
 
@@ -161,25 +160,25 @@
   "TAB" 'stro/alternate-buffer
   "/" 'projectile-ag
   ";" 'evilnc-comment-operator
-  "ase" 'eshell
-  "aP" 'package-list-packages
-  "cc" 'projectile-compile-project
+  "?" 'ag
+  "c" 'projectile-compile-project
   "d" 'dired-jump
   "e" 'eval-last-sexp
-  "fed" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
-  "ff" 'ido-find-file
-  "fs" 'save-buffer
+  "f" 'ido-find-file
   "g" 'magit-status
+  "l" 'helm-semantic-or-imenu
   "o" 'helm-mini
   "pd" 'projectile-dired
   "pf" 'projectile-find-file
   "ps" 'projectile-switch-project
-  "sa" 'ag
-  "sl" 'helm-semantic-or-imenu
-  "ss" 'helm-swoop
-  (kbd "C-s s") 'helm-multi-swoop-all
+  "P" 'package-list-packages
+  "Q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
+  "s" 'save-buffer
+  "w" 'helm-swoop
+  "W" 'helm-multi-swoop-all
+  "x" 'smex
   "X" 'delete-trailing-whitespace
-  "x" 'smex)
+  "z" 'eshell)
 
 (evil-leader/set-key-for-mode 'clojure-mode
   "cj" 'cider-jack-in
