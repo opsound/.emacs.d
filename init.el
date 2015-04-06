@@ -217,12 +217,15 @@
 
 (add-hook 'c-mode-hook
           (lambda ()
+            (setq indent-tabs-mode t)
+            (setq tab-width 4)
+            (setq c-basic-offset 4)
+            (setq evil-shift-width c-basic-offset)
+            (c-set-offset 'arglist-intro '+)
+            (c-set-offset 'arglist-cont-nonempty '+)
+            (c-set-offset 'case-label '+)
             (semantic-mode)
             (yas-minor-mode)
-            (setq-local indent-tabs-mode t)
-            (setq-local tab-width 4)
-            (setq-local c-basic-offset 4)
-            (setq-local evil-shift-width c-basic-offset)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'c++-mode-hook
