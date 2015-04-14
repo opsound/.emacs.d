@@ -109,8 +109,6 @@
 
 (setq-default indent-tabs-mode nil)
 
-(setq evilnc-hotkey-comment-operator nil)
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (recentf-mode 1)
@@ -169,14 +167,16 @@
   "h" 'help-command
   "l" 'helm-semantic-or-imenu
   "o" 'helm-mini
-  "[" 'projectile-find-file
+  "p" 'projectile-find-file
   "]" 'projectile-dired
-  "p" 'projectile-switch-project
+  "[" 'projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
   "w" 'helm-swoop
   "W" 'helm-multi-swoop-all
   "x" 'smex
+  "v" 'evil-scroll-page-down
+  "b" 'evil-scroll-page-up
   "X" 'delete-trailing-whitespace
   "z" 'eshell)
 
