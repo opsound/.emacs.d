@@ -43,6 +43,7 @@
                       rust-mode
                       smex
                       solarized-theme
+                      yaml-mode
                       yasnippet
                       zenburn-theme)
   "A list of packages to ensure are installed at launch")
@@ -224,6 +225,7 @@
             (c-set-offset 'arglist-intro '+)
             (c-set-offset 'arglist-cont-nonempty '+)
             (c-set-offset 'case-label '+)
+            (c-set-offset 'substatement-open 0)
             (semantic-mode)
             (yas-minor-mode)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
