@@ -159,6 +159,8 @@
   "TAB" 'stro/alternate-buffer
   "/" 'projectile-ag
   ";" 'evilnc-comment-operator
+  "+" 'text-scale-increase
+  "-" 'text-scale-decrease
   "?" 'ag
   "A" 'package-list-packages
   "c" 'projectile-compile-project
@@ -237,9 +239,9 @@
 
 (add-hook 'clojure-mode
           (lambda ()
-            (paredit-mode 1)
             (cider-mode 1)
-            (clj-refactor-mode 1)))
+            (clj-refactor-mode 1)
+            (paredit-mode 1)))
 
 (add-hook 'python-mode-hook
           (lambda ()
