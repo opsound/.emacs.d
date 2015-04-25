@@ -43,6 +43,7 @@
                       rust-mode
                       smex
                       solarized-theme
+                      yaml-mode
                       yasnippet
                       zenburn-theme)
   "A list of packages to ensure are installed at launch")
@@ -109,8 +110,6 @@
 
 (setq-default indent-tabs-mode nil)
 
-(setq evilnc-hotkey-comment-operator nil)
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (recentf-mode 1)
@@ -171,14 +170,16 @@
   "h" 'help-command
   "l" 'helm-semantic-or-imenu
   "o" 'helm-mini
-  "[" 'projectile-find-file
+  "p" 'projectile-find-file
   "]" 'projectile-dired
-  "p" 'projectile-switch-project
+  "[" 'projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
   "w" 'helm-swoop
   "W" 'helm-multi-swoop-all
   "x" 'smex
+  "v" 'evil-scroll-page-down
+  "b" 'evil-scroll-page-up
   "X" 'delete-trailing-whitespace
   "z" 'eshell)
 
@@ -219,12 +220,16 @@
 
 (add-hook 'c-mode-hook
           (lambda ()
+            (setq indent-tabs-mode t)
+            (setq tab-width 4)
+            (setq c-basic-offset 4)
+            (setq evil-shift-width c-basic-offset)
+            (c-set-offset 'arglist-intro '+)
+            (c-set-offset 'arglist-cont-nonempty '+)
+            (c-set-offset 'case-label '+)
+            (c-set-offset 'substatement-open 0)
             (semantic-mode)
             (yas-minor-mode)
-            (setq-local indent-tabs-mode t)
-            (setq-local tab-width 4)
-            (setq-local c-basic-offset 4)
-            (setq-local evil-shift-width c-basic-offset)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'c++-mode-hook
