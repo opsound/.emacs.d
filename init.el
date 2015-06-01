@@ -122,7 +122,7 @@
 
 (load-theme 'monokai t)
 
-(set-default-font "Consolas-10")
+(set-default-font "Menlo-14")
 (add-to-list 'default-frame-alist '(font . "-outline-Consolas-normal-normal-normal-mono-13-*-*-*-c-*-iso8859-1"))
 
 (when (memq window-system '(mac ns))
