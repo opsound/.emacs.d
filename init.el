@@ -63,6 +63,8 @@
 (global-company-mode)
 (setq company-idle-delay 0)
 
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 (smex-initialize)
 
 (yas-global-mode)
