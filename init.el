@@ -242,7 +242,7 @@
             (elisp-slime-nav-mode 1)
             (paredit-mode 1)))
 
-(add-hook 'clojure-mode
+(add-hook 'clojure-mode-hook
           (lambda ()
             (cider-mode 1)
             (clj-refactor-mode 1)
