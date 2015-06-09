@@ -9,7 +9,6 @@
 (defvar my-packages '(ace-jump-mode
                       ag
                       anaconda-mode
-                      autopair
                       cider
                       company
                       company-jedi
@@ -20,6 +19,7 @@
                       evil-exchange
                       evil-iedit-state
                       evil-leader
+                      evil-matchit
                       evil-nerd-commenter
                       evil-numbers
                       evil-surround
@@ -58,6 +58,7 @@
 (evil-mode 1)
 (global-evil-surround-mode)
 (global-evil-leader-mode)
+(global-evil-matchit-mode)
 (evil-exchange-install)
 
 (global-company-mode)
@@ -66,6 +67,8 @@
 (setq magit-last-seen-setup-instructions "1.4.0")
 
 (smex-initialize)
+
+(setq require-final-newline t)
 
 (yas-global-mode)
 (yas-reload-all)
@@ -77,6 +80,8 @@
 (ido-everywhere t)
 (ido-vertical-mode)
 (flx-ido-mode)
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
 (setq compilation-scroll-output t)
 (setq compilation-ask-about-save nil)
@@ -88,8 +93,6 @@
 (setq helm-exit-idle-delay 0)
 
 (setq-default fill-column 120)
-
-(autopair-global-mode)
 
 (setq jedi:complete-on-dot t)
 
@@ -229,13 +232,14 @@
             (c-set-offset 'arglist-cont-nonempty '+)
             (c-set-offset 'case-label '+)
             (c-set-offset 'substatement-open 0)
-            (semantic-mode)
+            (electric-pair-mode)
+            ;;(semantic-mode)
             (yas-minor-mode)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'c++-mode-hook
           (lambda ()
-            (semantic-mode)
+            ;;(semantic-mode)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'emacs-lisp-mode-hook
