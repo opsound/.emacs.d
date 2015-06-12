@@ -59,6 +59,37 @@ save the pointer marker if tag is found"
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) t)))
 
+(defun stro/replace-last-sexp ()
+  (interactive)
+  (let ((value (eval (preceding-sexp))))
+    (kill-sexp -1)
+    (insert (format "%S" value))))
+
+(defun stro/open-finder-1 (dir file)
+  (let ((script
+		 (if file
+			 (concat
+			  "tell application \"Finder\"\n"
+			  "    set frontmost to true\n"
+			  "    make new Finder window to (POSIX file \"" dir "\")\n"
+			  "    select file \"" file "\"\n"
+			  "end tell\n")
+		   (concat
+			"tell application \"Finder\"\n"
+			"    set frontmost to true\n"
+			"    make new Finder window to {path to desktop folder}\n"
+			"end tell\n"))))
+    (start-process "osascript-getinfo" nil "osascript" "-e" script)))
+
+(defun stro/open-finder ()
+  (interactive)
+  (let ((path (buffer-file-name))
+		dir file)
+	(when path
+	  (setq dir (file-name-directory path))
+	  (setq file (file-name-nondirectory path)))
+	(open-finder-1 dir file)))
+
 (defadvice split-window-horizontally (after rebalance-windows activate)
   (balance-windows))
 
