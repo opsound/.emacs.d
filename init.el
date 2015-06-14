@@ -35,6 +35,7 @@
                       ido-vertical-mode
                       iedit
                       magit
+                      markdown-mode
                       monokai-theme
                       org
                       paredit
