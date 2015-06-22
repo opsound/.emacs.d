@@ -69,6 +69,8 @@
 
 (smex-initialize)
 
+(setq org-src-fontify-natively t)
+
 (setq require-final-newline t)
 
 (yas-global-mode)
