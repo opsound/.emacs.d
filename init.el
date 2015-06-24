@@ -94,6 +94,7 @@
 (setq helm-semantic-fuzzy-match t)
 (setq helm-M-x-fuzzy-match t)
 (setq helm-exit-idle-delay 0)
+(setq helm-split-window-in-side-p t)
 
 (setq-default fill-column 120)
 
