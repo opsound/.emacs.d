@@ -178,7 +178,7 @@
   "h" 'help-command
   "l" 'helm-semantic-or-imenu
   "o" 'helm-mini
-  "p" 'projectile-find-file
+  "p" 'helm-projectile
   "]" 'projectile-dired
   "[" 'projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
