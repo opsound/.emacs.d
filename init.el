@@ -30,6 +30,7 @@
                       geiser
                       ggtags
                       helm
+                      helm-ag
                       helm-gtags
                       helm-swoop
                       ido-vertical-mode
@@ -95,6 +96,9 @@
 (setq helm-M-x-fuzzy-match t)
 (setq helm-exit-idle-delay 0)
 (setq helm-split-window-in-side-p t)
+(helm-autoresize-mode 1)
+(setq helm-autoresize-max-height 30)
+(setq helm-autoresize-min-height 30)
 
 (setq-default fill-column 120)
 
@@ -164,11 +168,12 @@
 (evil-leader/set-key
   "<SPC>" 'ace-jump-word-mode
   "TAB" 'stro/alternate-buffer
-  "/" 'projectile-ag
+  "/" 'helm-projectile-ag
   ";" 'evilnc-comment-operator
+  ":" 'evilnc-comment-or-uncomment-lines
   "+" 'text-scale-increase
   "-" 'text-scale-decrease
-  "?" 'ag
+  "?" 'helm-ag
   "A" 'package-list-packages
   "c" 'projectile-compile-project
   "d" 'dired-jump
@@ -180,7 +185,7 @@
   "o" 'helm-mini
   "p" 'helm-projectile
   "]" 'projectile-dired
-  "[" 'projectile-switch-project
+  "[" 'helm-projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
   "w" 'helm-swoop
