@@ -31,6 +31,7 @@
                       ggtags
                       helm
                       helm-ag
+                      helm-projectile
                       helm-gtags
                       helm-swoop
                       ido-vertical-mode
@@ -90,6 +91,8 @@
 (setq compilation-scroll-output t)
 (setq compilation-ask-about-save nil)
 
+(require 'helm)
+(require 'helm-projectile)
 (setq helm-exit-idle-delay 0)
 (setq helm-buffers-fuzzy-matching t)
 (setq helm-semantic-fuzzy-match t)
@@ -181,16 +184,15 @@
   "f" 'ido-find-file
   "g" 'magit-status
   "h" 'help-command
-  "l" 'helm-semantic-or-imenu
+  "l" 'helm-imenu
   "o" 'helm-mini
-  "p" 'helm-projectile
-  "]" 'projectile-dired
-  "[" 'helm-projectile-switch-project
+  "j" 'helm-projectile
+  "p" 'helm-projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
   "w" 'helm-swoop
   "W" 'helm-multi-swoop-all
-  "x" 'smex
+  "x" 'helm-M-x
   "v" 'evil-scroll-page-down
   "b" 'evil-scroll-page-up
   "X" 'delete-trailing-whitespace
@@ -242,13 +244,13 @@
             (c-set-offset 'case-label '+)
             (c-set-offset 'substatement-open 0)
             (electric-pair-mode)
-            ;;(semantic-mode)
+            (semantic-mode)
             (yas-minor-mode)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'c++-mode-hook
           (lambda ()
-            ;;(semantic-mode)
+            (semantic-mode)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'emacs-lisp-mode-hook
