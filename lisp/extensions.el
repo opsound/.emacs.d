@@ -88,7 +88,7 @@ save the pointer marker if tag is found"
 	(when path
 	  (setq dir (file-name-directory path))
 	  (setq file (file-name-nondirectory path)))
-	(open-finder-1 dir file)))
+	(stro/open-finder-1 dir file)))
 
 (defadvice split-window-horizontally (after rebalance-windows activate)
   (balance-windows))
