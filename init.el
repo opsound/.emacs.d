@@ -138,12 +138,12 @@
 
 (load-theme 'monokai t)
 
-(set-default-font "Menlo-14")
+(set-default-font "Menlo-12")
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
-  (setq mac-command-modifier 'control)
-  (setq mac-option-modifier 'meta))
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'none))
 
 (define-key key-translation-map [?\C-h] [?\C-?])
 
