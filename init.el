@@ -9,6 +9,7 @@
 (defvar my-packages '(ace-jump-mode
                       ag
                       anaconda-mode
+                      auctex
                       cider
                       company
                       company-jedi
@@ -103,11 +104,16 @@
 (setq helm-autoresize-max-height 30)
 (setq helm-autoresize-min-height 30)
 
+(setq-default TeX-engine 'xetex)
+(setq-default TeX-PDF-mode t)
+
 (setq-default fill-column 120)
 
 (setq jedi:complete-on-dot t)
 
 (global-ede-mode t)
+
+(setq dired-dwim-target t)
 
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
@@ -171,7 +177,7 @@
 (evil-leader/set-key
   "<SPC>" 'ace-jump-word-mode
   "TAB" 'stro/alternate-buffer
-  "/" 'helm-projectile-ag
+  "/" 'helm-projectile-ack
   ";" 'evilnc-comment-operator
   ":" 'evilnc-comment-or-uncomment-lines
   "+" 'text-scale-increase
