@@ -13,6 +13,7 @@
                       cider
                       company
                       company-jedi
+                      dtrt-indent
                       clj-refactor
                       clojure-mode
                       elisp-slime-nav
@@ -239,24 +240,27 @@
             (hs-minor-mode)
             (rainbow-delimiters-mode)))
 
-(add-hook 'c-mode-hook
-          (lambda ()
-            (setq indent-tabs-mode t)
-            (setq tab-width 4)
-            (setq c-basic-offset 4)
-            (setq evil-shift-width c-basic-offset)
-            (c-set-offset 'arglist-intro '+)
-            (c-set-offset 'arglist-cont-nonempty '+)
-            (c-set-offset 'case-label '+)
-            (c-set-offset 'substatement-open 0)
-            (electric-pair-mode)
-            (semantic-mode)
-            (yas-minor-mode)
-            (setq-local company-backends '(company-gtags company-dabbrev-code))))
+;; (add-hook 'c-mode-common-hook
+;;           (lambda ()
+;;             (setq indent-tabs-mode t)
+;;             (setq tab-width 4)
+;;             (setq c-basic-offset 4)
+;;             (setq evil-shift-width c-basic-offset)
+;;             (c-set-offset 'arglist-intro '+)
+;;             (c-set-offset 'arglist-cont-nonempty '+)
+;;             (c-set-offset 'case-label '+)
+;;             (c-set-offset 'substatement-open 0)
+;;             (electric-pair-mode)
+;;             (yas-minor-mode)
+;;             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
-(add-hook 'c++-mode-hook
+(add-hook 'c-mode-common-hook
           (lambda ()
-            (semantic-mode)
+            (require 'dtrt-indent)
+            (dtrt-indent-mode t)
+            (electric-pair-mode)
+            (yas-minor-mode)
+            (setq tab-width 4)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'emacs-lisp-mode-hook
