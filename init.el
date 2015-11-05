@@ -13,6 +13,7 @@
                       cider
                       company
                       company-jedi
+                      company-ycmd
                       dtrt-indent
                       clj-refactor
                       clojure-mode
@@ -50,6 +51,7 @@
                       solarized-theme
                       yaml-mode
                       yasnippet
+                      ycmd
                       zenburn-theme)
   "A list of packages to ensure are installed at launch")
 
@@ -59,6 +61,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'extensions)
+(require 'gud)
 
 (evil-mode 1)
 (global-evil-surround-mode)
@@ -68,6 +71,14 @@
 
 (global-company-mode)
 (setq company-idle-delay 0)
+(setq company-dabbrev-downcase nil)
+
+(require 'ycmd)
+(setq ycmd-server-command '("python" "/Users/stro/Work/ycmd/ycmd"))
+(setq ycmd-request-message-level -1)
+(setq url-show-status nil)
+(require 'company-ycmd)
+(company-ycmd-setup)
 
 (setq magit-last-seen-setup-instructions "1.4.0")
 
@@ -141,11 +152,11 @@
 
 (global-auto-revert-mode t)
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (load-theme 'monokai t)
 
-(set-default-font "Menlo-12")
+(set-default-font "Menlo-10")
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
@@ -224,7 +235,8 @@
   "t" 'helm-gtags-pop-stack
   (kbd "C-k") 'helm-gtags-find-tag-other-window
   "K" 'stro/semantic-goto-definition
-  "T" 'stro/semantic-pop-tag-mark)
+  "T" 'stro/semantic-pop-tag-mark
+  "u" (lambda () (interactive) (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))
 
 (evil-leader/set-key-for-mode 'emacs-lisp-mode
   "k" 'elisp-slime-nav-find-elisp-thing-at-point
@@ -261,6 +273,8 @@
             (electric-pair-mode)
             (yas-minor-mode)
             (setq tab-width 4)
+            (ycmd-mode)
+            (add-hook 'after-save-hook 'helm-gtags-update-tags nil 'local)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-hook 'emacs-lisp-mode-hook

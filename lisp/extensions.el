@@ -90,6 +90,16 @@ save the pointer marker if tag is found"
 	  (setq file (file-name-nondirectory path)))
 	(stro/open-finder-1 dir file)))
 
+(defun stro/copy-file-name-to-clipboard ()
+  "Copy the current buffer file name to the clipboard."
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
+
 (defadvice split-window-horizontally (after rebalance-windows activate)
   (balance-windows))
 
