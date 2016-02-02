@@ -14,9 +14,9 @@
                       company
                       company-jedi
                       company-ycmd
-                      dtrt-indent
                       clj-refactor
                       clojure-mode
+                      counsel
                       elisp-slime-nav
                       evil
                       evil-exchange
@@ -28,17 +28,15 @@
                       evil-surround
                       exec-path-from-shell
                       expand-region
-                      flx-ido
+                      flx
                       jedi
                       geiser
                       ggtags
                       helm
-                      helm-ag
-                      helm-projectile
-                      helm-gtags
                       helm-swoop
-                      ido-vertical-mode
                       iedit
+                      julia-mode
+                      julia-shell
                       magit
                       markdown-mode
                       monokai-theme
@@ -48,6 +46,7 @@
                       rainbow-delimiters
                       rust-mode
                       smex
+                      swiper
                       solarized-theme
                       yaml-mode
                       yasnippet
@@ -63,13 +62,21 @@
 (require 'extensions)
 (require 'gud)
 
+(server-start)
+
 (evil-mode 1)
 (global-evil-surround-mode)
 (global-evil-leader-mode)
 (global-evil-matchit-mode)
 (evil-exchange-install)
+(eval-after-load "evil-maps"
+  (dolist (map '(evil-motion-state-map
+                 evil-insert-state-map
+                 evil-emacs-state-map))
+    (define-key (eval map) "\C-w" nil)))
 
 (global-company-mode)
+(setq company-minimum-prefix-length 2)
 (setq company-idle-delay 0)
 (setq company-dabbrev-downcase nil)
 
@@ -92,29 +99,19 @@
 (yas-reload-all)
 
 (projectile-global-mode 1)
-(setq projectile-indexing-method 'alien)
+(setq projectile-completion-system 'ivy)
 
-(ido-mode 1)
-(ido-everywhere t)
-(ido-vertical-mode)
-(flx-ido-mode)
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+(setq ivy-height 20)
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(advice-add
+ 'swiper--action
+ :after
+ (defun move-to-match-beginning* (_)
+   (goto-char (match-beginning 0))))
 
 (setq compilation-scroll-output t)
-(setq compilation-ask-about-save nil)
-
-(require 'helm)
-(require 'helm-projectile)
-(setq helm-exit-idle-delay 0)
-(setq helm-buffers-fuzzy-matching t)
-(setq helm-semantic-fuzzy-match t)
-(setq helm-M-x-fuzzy-match t)
-(setq helm-exit-idle-delay 0)
-(setq helm-split-window-in-side-p t)
-(helm-autoresize-mode 1)
-(setq helm-autoresize-max-height 30)
-(setq helm-autoresize-min-height 30)
+(setq compilation-ask-about-mave nil)
 
 (setq-default TeX-engine 'xetex)
 (setq-default TeX-PDF-mode t)
@@ -140,7 +137,8 @@
 
 (global-hl-line-mode)
 
-(set-default 'truncate-lines t)
+(visual-line-mode)
+(adaptive-wrap-prefix-mode)
 
 (setq-default indent-tabs-mode nil)
 
@@ -165,7 +163,17 @@
 
 (define-key key-translation-map [?\C-h] [?\C-?])
 
-(global-set-key (kbd "M-x") 'smex)
+(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-7") 'swiper-mc)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
 (global-set-key (kbd "C-j") 'newline-and-indent)
@@ -174,7 +182,7 @@
 (global-set-key (kbd "M-2") 'split-window-vertically)
 (global-set-key (kbd "M-3") 'split-window-horizontally)
 
-(global-set-key [f12] 'stro/locate-current-file-in-explorer)
+(global-set-key [f12] 'locate-current-file-in-explorer)
 
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 
@@ -188,33 +196,32 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "<SPC>" 'ace-jump-word-mode
-  "TAB" 'stro/alternate-buffer
-  "/" 'helm-projectile-ack
+  "TAB" 'alternate-buffer
   ";" 'evilnc-comment-operator
   ":" 'evilnc-comment-or-uncomment-lines
   "+" 'text-scale-increase
   "-" 'text-scale-decrease
-  "?" 'helm-ag
   "A" 'package-list-packages
   "c" 'projectile-compile-project
   "d" 'dired-jump
   "e" 'eval-last-sexp
-  "f" 'ido-find-file
+  "f" 'counsel-find-file
   "g" 'magit-status
   "h" 'help-command
-  "l" 'helm-imenu
-  "o" 'helm-mini
-  "j" 'helm-projectile
-  "p" 'helm-projectile-switch-project
+  "l" 'ivy-imenu-goto
+  "o" 'ivy-switch-buffer
+  "j" 'counsel-git
+  "p" 'projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
   "w" 'helm-swoop
   "W" 'helm-multi-swoop-all
-  "x" 'helm-M-x
+  "x" 'counsel-M-x
   "v" 'evil-scroll-page-down
   "b" 'evil-scroll-page-up
   "X" 'delete-trailing-whitespace
-  "z" 'eshell)
+  "z" 'eshell
+  "/" 'counsel-git-grep)
 
 (evil-leader/set-key-for-mode 'clojure-mode
   "cj" 'cider-jack-in
@@ -227,15 +234,15 @@
   "k" 'helm-gtags-dwim
   "t" 'helm-gtags-pop-stack
   (kbd "C-k") 'helm-gtags-find-tag-other-window
-  "K" 'stro/semantic-goto-definition
-  "T" 'stro/semantic-pop-tag-mark)
+  "K" 'semantic-goto-definition
+  "T" 'semantic-pop-tag-mark)
 
 (evil-leader/set-key-for-mode 'c-mode
   "k" 'helm-gtags-dwim
   "t" 'helm-gtags-pop-stack
   (kbd "C-k") 'helm-gtags-find-tag-other-window
-  "K" 'stro/semantic-goto-definition
-  "T" 'stro/semantic-pop-tag-mark
+  "K" 'semantic-goto-definition
+  "T" 'semantic-pop-tag-mark
   "u" (lambda () (interactive) (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))
 
 (evil-leader/set-key-for-mode 'emacs-lisp-mode
@@ -252,30 +259,25 @@
             (hs-minor-mode)
             (rainbow-delimiters-mode)))
 
-;; (add-hook 'c-mode-common-hook
-;;           (lambda ()
-;;             (setq indent-tabs-mode t)
-;;             (setq tab-width 4)
-;;             (setq c-basic-offset 4)
-;;             (setq evil-shift-width c-basic-offset)
-;;             (c-set-offset 'arglist-intro '+)
-;;             (c-set-offset 'arglist-cont-nonempty '+)
-;;             (c-set-offset 'case-label '+)
-;;             (c-set-offset 'substatement-open 0)
-;;             (electric-pair-mode)
-;;             (yas-minor-mode)
-;;             (setq-local company-backends '(company-gtags company-dabbrev-code))))
-
 (add-hook 'c-mode-common-hook
           (lambda ()
-            (require 'dtrt-indent)
-            (dtrt-indent-mode t)
-            (electric-pair-mode)
-            (yas-minor-mode)
+            (setq indent-tabs-mode t)
             (setq tab-width 4)
-            (ycmd-mode)
+            (setq c-basic-offset 4)
+            (setq evil-shift-width c-basic-offset)
+            (c-set-offset 'arglist-intro '+)
+            (c-set-offset 'arglist-cont-nonempty '+)
+            (c-set-offset 'case-label '+)
+            (c-set-offset 'substatement-open 0)
+            (electric-pair-mode)
+            (visual-line-mode)
+            (adaptive-wrap-prefix-mode)
+            (yas-minor-mode)
             (add-hook 'after-save-hook 'helm-gtags-update-tags nil 'local)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
+
+(add-hook 'irony-mode-hook 'irony-mode-hook)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
