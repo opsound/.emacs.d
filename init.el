@@ -1,95 +1,109 @@
+(require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
+(setq gc-cons-threshold 100000000)
+(setq inhibit-startup-message t)
 
-(defvar my-packages '(ace-jump-mode
-                      ag
-                      anaconda-mode
-                      auctex
-                      cider
-                      company
-                      company-jedi
-                      company-ycmd
-                      clj-refactor
-                      clojure-mode
-                      counsel
-                      elisp-slime-nav
-                      evil
-                      evil-exchange
-                      evil-iedit-state
-                      evil-leader
-                      evil-matchit
-                      evil-nerd-commenter
-                      evil-numbers
-                      evil-surround
-                      exec-path-from-shell
-                      expand-region
-                      flx
-                      jedi
-                      geiser
-                      ggtags
-                      helm
-                      helm-swoop
-                      iedit
-                      julia-mode
-                      julia-shell
-                      magit
-                      markdown-mode
-                      monokai-theme
-                      org
-                      paredit
-                      projectile
-                      rainbow-delimiters
-                      rust-mode
-                      smex
-                      swiper
-                      solarized-theme
-                      yaml-mode
-                      yasnippet
-                      ycmd
-                      zenburn-theme)
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(defconst my-packages '(ace-jump-mode
+                        ag
+                        anaconda-mode
+                        auctex
+                        cider
+                        company
+                        company-jedi
+                        counsel
+                        elisp-slime-nav
+                        evil
+                        evil-exchange
+                        evil-iedit-state
+                        evil-leader
+                        evil-matchit
+                        evil-magit
+                        evil-mc
+                        evil-nerd-commenter
+                        evil-numbers
+                        evil-surround
+                        exec-path-from-shell
+                        expand-region
+                        function-args
+                        iedit
+                        jedi
+                        geiser
+                        ggtags
+                        helm
+                        helm-swoop
+                        iedit
+                        julia-mode
+                        julia-shell
+                        magit
+                        markdown-mode
+                        monokai-theme
+                        org
+                        projectile
+                        rainbow-delimiters
+                        rust-mode
+                        smartparens
+                        swiper
+                        solarized-theme
+                        tao-theme
+                        yaml-mode
+                        yasnippet
+                        ws-butler
+                        zenburn-theme)
   "A list of packages to ensure are installed at launch")
+(defun install-packages ()
+  "Install all required packages."
+  (interactive)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  (dolist (package my-packages)
+    (unless (package-installed-p package)
+      (package-install package))))
 
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+(install-packages)
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'extensions)
-(require 'gud)
+(require 'cedet-config)
 
-(server-start)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups" )))
 
 (evil-mode 1)
 (global-evil-surround-mode)
 (global-evil-leader-mode)
 (global-evil-matchit-mode)
+(global-evil-mc-mode)
 (evil-exchange-install)
+(evil-magit-init)
 (eval-after-load "evil-maps"
   (dolist (map '(evil-motion-state-map
                  evil-insert-state-map
                  evil-emacs-state-map))
     (define-key (eval map) "\C-w" nil)))
+(require 'evil-nerd-commenter)
 
-(global-company-mode)
-(setq company-minimum-prefix-length 2)
-(setq company-idle-delay 0)
-(setq company-dabbrev-downcase nil)
+(blink-cursor-mode 0)
 
-(require 'ycmd)
-(setq ycmd-server-command '("python" "/Users/stro/Work/ycmd/ycmd"))
-(setq ycmd-request-message-level -1)
-(setq url-show-status nil)
-(require 'company-ycmd)
-(company-ycmd-setup)
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+(delete 'company-semantic company-backends)
+;;(define-key c-mode-base-map [(tab)] 'company-complete)
+;; (setq company-minimum-prefix-length 2)
+;; (setq company-idle-delay 0)
+;; (setq company-dabbrev-downcase nil)
 
-(setq magit-last-seen-setup-instructions "1.4.0")
+(fa-config-default)
 
-(smex-initialize)
+(global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+(global-semantic-stickyfunc-mode 1)
+
+(semantic-mode 1)
 
 (setq org-src-fontify-natively t)
 
@@ -111,58 +125,53 @@
    (goto-char (match-beginning 0))))
 
 (setq compilation-scroll-output t)
-(setq compilation-ask-about-mave nil)
+(setq compilation-ask-about-save nil)
 
 (setq-default TeX-engine 'xetex)
 (setq-default TeX-PDF-mode t)
 
-(setq-default fill-column 120)
+(setq-default fill-column 80)
 
 (setq jedi:complete-on-dot t)
-
-(global-ede-mode t)
 
 (setq dired-dwim-target t)
 
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
-(ad-activate 'split-window-horizontally)
 
 (setq ring-bell-function 'ignore)
 
-(setq inhibit-startup-message t)
-
 (show-paren-mode t)
+
+(setq sp-base-key-bindings 'paredit)
+(setq sp-autoskip-closing-pair 'always)
+(setq sp-hybrid-kill-entire-symbol nil)
+(sp-use-paredit-bindings)
 
 (global-hl-line-mode)
 
-(visual-line-mode)
-(adaptive-wrap-prefix-mode)
+(set-default 'truncate-lines t)
 
 (setq-default indent-tabs-mode nil)
 
-(defalias 'yes-or-no-p 'y-or-n-p)
-
 (recentf-mode 1)
-
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups" )))
 
 (global-auto-revert-mode t)
 
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(load-theme 'tao-yang t)
+(setq evil-visual-state-cursor '(box "salmon"))
 
-(load-theme 'monokai t)
-
-(set-default-font "Menlo-10")
+(set-default-font "Menlo-12")
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'none))
 
-(define-key key-translation-map [?\C-h] [?\C-?])
+(setq scheme-program-name "csi -:c")
 
+(define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-7") 'swiper-mc)
@@ -173,10 +182,14 @@
 (global-set-key (kbd "C-c j") 'counsel-git-grep)
 (global-set-key (kbd "C-c k") 'counsel-ag)
 (global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "M-k") 'kill-this-buffer)
+(global-set-key (kbd "C-c w") 'whitespace-mode)
+(global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
+(global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-j") 'newline-and-indent)
+(global-set-key (kbd "C-;") 'iedit-mode)
+(global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
+(global-set-key (kbd "M-l") 'other-window)
+(global-set-key (kbd "M-k") 'kill-this-buffer)
 (global-set-key (kbd "M-0") 'delete-window)
 (global-set-key (kbd "M-1") 'delete-other-windows)
 (global-set-key (kbd "M-2") 'split-window-vertically)
@@ -186,8 +199,6 @@
 
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 
-(define-key evil-normal-state-map (kbd "C-;") 'iedit-mode)
-
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
 (define-key evil-visual-state-map (kbd "x") 'er/expand-region)
 (define-key evil-visual-state-map (kbd "X") 'er/contract-region)
@@ -195,7 +206,7 @@
 
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
-  "<SPC>" 'ace-jump-word-mode
+  "<SPC>" 'avy-goto-word-1
   "TAB" 'alternate-buffer
   ";" 'evilnc-comment-operator
   ":" 'evilnc-comment-or-uncomment-lines
@@ -208,13 +219,13 @@
   "f" 'counsel-find-file
   "g" 'magit-status
   "h" 'help-command
-  "l" 'ivy-imenu-goto
+  "l" 'counsel-imenu
   "o" 'ivy-switch-buffer
   "j" 'counsel-git
   "p" 'projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
-  "w" 'helm-swoop
+  "w" 'balance-windows
   "W" 'helm-multi-swoop-all
   "x" 'counsel-M-x
   "v" 'evil-scroll-page-down
@@ -222,13 +233,6 @@
   "X" 'delete-trailing-whitespace
   "z" 'eshell
   "/" 'counsel-git-grep)
-
-(evil-leader/set-key-for-mode 'clojure-mode
-  "cj" 'cider-jack-in
-  "e" 'cider-eval-last-sexp
-  "cb" 'cider-eval-buffer
-  "k" (lambda () (interactive) (cider-jump-to-var 1))
-  "t" 'cider-jump-back)
 
 (evil-leader/set-key-for-mode 'c++-mode
   "k" 'helm-gtags-dwim
@@ -256,8 +260,10 @@
 
 (add-hook 'prog-mode-hook
           (lambda ()
+            (interactive)
             (hs-minor-mode)
-            (rainbow-delimiters-mode)))
+            (rainbow-delimiters-mode)
+            (ws-butler-mode)))
 
 (add-hook 'c-mode-common-hook
           (lambda ()
@@ -267,28 +273,20 @@
             (setq evil-shift-width c-basic-offset)
             (c-set-offset 'arglist-intro '+)
             (c-set-offset 'arglist-cont-nonempty '+)
-            (c-set-offset 'case-label '+)
+            (c-set-offset 'case-label 0)
             (c-set-offset 'substatement-open 0)
+            (c-set-offset 'brace-list-open 0)
             (electric-pair-mode)
+            (ws-butler-mode)
+            (yas-minor-mode)
             (visual-line-mode)
             (adaptive-wrap-prefix-mode)
-            (yas-minor-mode)
             (add-hook 'after-save-hook 'helm-gtags-update-tags nil 'local)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
-(add-hook 'irony-mode-hook 'irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-            (elisp-slime-nav-mode 1)
-            (paredit-mode 1)))
-
-(add-hook 'clojure-mode-hook
-          (lambda ()
-            (cider-mode 1)
-            (clj-refactor-mode 1)
-            (paredit-mode 1)))
+            (elisp-slime-nav-mode 1)))
 
 (add-hook 'python-mode-hook
           (lambda ()
@@ -303,3 +301,17 @@
             (tern-mode)))
 
 ;; Custom set variables
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("603a9c7f3ca3253cb68584cb26c408afcf4e674d7db86badcfe649dd3c538656" "38ba6a938d67a452aeb1dada9d7cdeca4d9f18114e9fc8ed2b972573138d4664" "40bc0ac47a9bd5b8db7304f8ef628d71e2798135935eb450483db0dbbfff8b11" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(font-lock-type-face ((t (:foreground "#161616" :underline nil :slant normal)))))
