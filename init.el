@@ -97,14 +97,6 @@
 ;; (setq company-idle-delay 0)
 ;; (setq company-dabbrev-downcase nil)
 
-(fa-config-default)
-
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-(global-semantic-stickyfunc-mode 1)
-
-(semantic-mode 1)
-
 (setq org-src-fontify-natively t)
 
 (setq require-final-newline t)
@@ -161,6 +153,7 @@
 
 (load-theme 'tao-yang t)
 (setq evil-visual-state-cursor '(box "salmon"))
+(setq evil-normal-state-cursor '(box "black"))
 
 (set-default-font "Menlo-12")
 
@@ -195,8 +188,6 @@
 (global-set-key (kbd "M-2") 'split-window-vertically)
 (global-set-key (kbd "M-3") 'split-window-horizontally)
 
-(global-set-key [f12] 'locate-current-file-in-explorer)
-
 (define-key company-active-map (kbd "<tab>") 'company-complete)
 
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
@@ -206,33 +197,35 @@
 
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
-  "<SPC>" 'avy-goto-word-1
-  "TAB" 'alternate-buffer
-  ";" 'evilnc-comment-operator
-  ":" 'evilnc-comment-or-uncomment-lines
   "+" 'text-scale-increase
   "-" 'text-scale-decrease
+  "/" 'counsel-git-grep
+  ":" 'evilnc-comment-or-uncomment-lines
+  ";" 'evilnc-comment-operator
+  "<SPC>" 'avy-goto-word-1
+  "TAB" 'alternate-buffer
   "A" 'package-list-packages
+  "W" 'helm-multi-swoop-all
+  "X" 'delete-trailing-whitespace
+  "b" 'evil-scroll-page-up
   "c" 'projectile-compile-project
   "d" 'dired-jump
   "e" 'eval-last-sexp
   "f" 'counsel-find-file
   "g" 'magit-status
   "h" 'help-command
+  "j" 'counsel-git
   "l" 'counsel-imenu
   "o" 'ivy-switch-buffer
-  "j" 'counsel-git
   "p" 'projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
   "s" 'save-buffer
-  "w" 'balance-windows
-  "W" 'helm-multi-swoop-all
-  "x" 'counsel-M-x
   "v" 'evil-scroll-page-down
-  "b" 'evil-scroll-page-up
-  "X" 'delete-trailing-whitespace
+  "v" 'toggle-truncate-lines
+  "w" 'balance-windows
+  "x" 'counsel-M-x
   "z" 'eshell
-  "/" 'counsel-git-grep)
+  )
 
 (evil-leader/set-key-for-mode 'c++-mode
   "k" 'helm-gtags-dwim
@@ -306,12 +299,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("603a9c7f3ca3253cb68584cb26c408afcf4e674d7db86badcfe649dd3c538656" "38ba6a938d67a452aeb1dada9d7cdeca4d9f18114e9fc8ed2b972573138d4664" "40bc0ac47a9bd5b8db7304f8ef628d71e2798135935eb450483db0dbbfff8b11" default))))
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-lock-type-face ((t (:foreground "#161616" :underline nil :slant normal)))))
+ '(font-lock-type-face ((t (:foreground "#161616" :underline nil)))))
