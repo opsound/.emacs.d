@@ -17,6 +17,7 @@
                         company
                         company-jedi
                         counsel
+                        dtrt-indent
                         elisp-slime-nav
                         evil
                         evil-exchange
@@ -51,6 +52,7 @@
                         swiper
                         solarized-theme
                         tao-theme
+                        quickrun
                         yaml-mode
                         yasnippet
                         ws-butler
