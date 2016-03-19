@@ -69,7 +69,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'extensions)
-(require 'cedet-config)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups" )))
 
