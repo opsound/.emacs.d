@@ -10,6 +10,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (defconst my-packages '(ace-jump-mode
+                        ace-window
                         ag
                         anaconda-mode
                         auctex
@@ -88,6 +89,8 @@
     (define-key (eval map) "\C-w" nil)))
 (require 'evil-nerd-commenter)
 
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+
 (blink-cursor-mode 0)
 
 (require 'company)
@@ -125,8 +128,6 @@
 
 (setq-default fill-column 80)
 
-(setq jedi:complete-on-dot t)
-
 (setq dired-dwim-target t)
 
 (scroll-bar-mode 0)
@@ -136,11 +137,6 @@
 (setq ring-bell-function 'ignore)
 
 (show-paren-mode t)
-
-(setq sp-base-key-bindings 'paredit)
-(setq sp-autoskip-closing-pair 'always)
-(setq sp-hybrid-kill-entire-symbol nil)
-(sp-use-paredit-bindings)
 
 (global-hl-line-mode)
 
@@ -152,18 +148,14 @@
 
 (global-auto-revert-mode t)
 
-(load-theme 'tao-yang t)
-(setq evil-visual-state-cursor '(box "salmon"))
-(setq evil-normal-state-cursor '(box "black"))
+(load-theme 'leuven t)
 
-(set-default-font "Menlo-12")
+(set-default-font "Inconsolata-14")
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'none))
-
-(setq scheme-program-name "csi -:c")
 
 (define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key "\C-w" 'backward-kill-word)
@@ -182,7 +174,6 @@
 (global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "C-;") 'iedit-mode)
 (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
-(global-set-key (kbd "M-l") 'other-window)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
 (global-set-key (kbd "M-0") 'delete-window)
 (global-set-key (kbd "M-1") 'delete-other-windows)
@@ -203,11 +194,13 @@
   "/" 'counsel-git-grep
   ":" 'evilnc-comment-or-uncomment-lines
   ";" 'evilnc-comment-operator
+  "." 'ffap
   "<SPC>" 'avy-goto-word-1
   "TAB" 'alternate-buffer
   "A" 'package-list-packages
   "W" 'helm-multi-swoop-all
   "X" 'delete-trailing-whitespace
+  "a" 'ace-window
   "b" 'evil-scroll-page-up
   "c" 'projectile-compile-project
   "d" 'dired-jump
@@ -251,6 +244,7 @@
 (evil-leader/set-key-for-mode 'python-mode
   "k" 'jedi:goto-definition
   "t" 'jedi:goto-definition-pop-marker)
+(setq jedi:complete-on-dot t)
 
 (add-hook 'prog-mode-hook
           (lambda ()
