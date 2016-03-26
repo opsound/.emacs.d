@@ -9,8 +9,8 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(defconst my-packages '(ace-jump-mode
-                        ace-window
+(defconst my-packages '(ace-window
+                        adaptive-wrap
                         ag
                         anaconda-mode
                         auctex
@@ -38,6 +38,7 @@
                         geiser
                         ggtags
                         helm
+                        helm-gtags
                         helm-swoop
                         iedit
                         julia-mode
@@ -79,7 +80,6 @@
 (global-evil-surround-mode)
 (global-evil-leader-mode)
 (global-evil-matchit-mode)
-(global-evil-mc-mode)
 (evil-exchange-install)
 (evil-magit-init)
 (eval-after-load "evil-maps"
@@ -143,6 +143,7 @@
 (set-default 'truncate-lines t)
 
 (setq-default indent-tabs-mode nil)
+(set 'clean-aindent-is-simple-indent t)
 
 (recentf-mode 1)
 
@@ -173,6 +174,7 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "C-;") 'iedit-mode)
+(global-set-key (kbd "C-l") 'ace-delete-window)
 (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
 (global-set-key (kbd "M-0") 'delete-window)
@@ -185,6 +187,7 @@
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
 (define-key evil-visual-state-map (kbd "x") 'er/expand-region)
 (define-key evil-visual-state-map (kbd "X") 'er/contract-region)
+(define-key evil-insert-state-map (kbd "C-j") 'newline-and-indent)
 (evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
 
 (evil-leader/set-leader "<SPC>")
@@ -200,6 +203,7 @@
   "A" 'package-list-packages
   "W" 'helm-multi-swoop-all
   "X" 'delete-trailing-whitespace
+  "F" 'open-finder
   "a" 'ace-window
   "b" 'evil-scroll-page-up
   "c" 'projectile-compile-project
@@ -251,7 +255,8 @@
             (interactive)
             (hs-minor-mode)
             (rainbow-delimiters-mode)
-            (ws-butler-mode)))
+            (ws-butler-mode)
+            (clean-aindent-mode)))
 
 (add-hook 'c-mode-common-hook
           (lambda ()
@@ -267,7 +272,6 @@
             (electric-pair-mode)
             (ws-butler-mode)
             (yas-minor-mode)
-            (visual-line-mode)
             (adaptive-wrap-prefix-mode)
             (add-hook 'after-save-hook 'helm-gtags-update-tags nil 'local)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
