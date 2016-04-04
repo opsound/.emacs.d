@@ -93,6 +93,7 @@
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 (blink-cursor-mode 0)
+(setq git-commit-finish-query-functions nil)
 
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
