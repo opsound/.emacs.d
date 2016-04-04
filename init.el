@@ -202,6 +202,7 @@
   "<SPC>" 'avy-goto-word-1
   "TAB" 'alternate-buffer
   "A" 'package-list-packages
+  "C" 'helm-gtags-create-tags
   "W" 'helm-multi-swoop-all
   "X" 'delete-trailing-whitespace
   "F" 'open-finder
