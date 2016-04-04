@@ -145,7 +145,6 @@
 (set-default 'truncate-lines t)
 
 (setq-default indent-tabs-mode nil)
-(set 'clean-aindent-is-simple-indent t)
 
 (recentf-mode 1)
 
