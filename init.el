@@ -98,6 +98,10 @@
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 (delete 'company-semantic company-backends)
+;;(define-key c-mode-base-map [(tab)] 'company-complete)
+(setq company-minimum-prefix-length 2)
+(setq company-idle-delay 0.1)
+(setq company-dabbrev-downcase nil)
 
 (setq org-src-fontify-natively t)
 
