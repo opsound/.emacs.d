@@ -18,6 +18,7 @@
                         company
                         company-jedi
                         counsel
+                        delight
                         dtrt-indent
                         elisp-slime-nav
                         evil
