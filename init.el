@@ -216,6 +216,7 @@
   "h" 'help-command
   "j" 'counsel-git
   "l" 'counsel-imenu
+  "m" 'mu4e
   "o" 'ivy-switch-buffer
   "p" 'projectile-switch-project
   "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
@@ -293,6 +294,16 @@
             (setq-local evil-shift-width js2-basic-offset)
             (setq js2-strict-trailing-comma-warning nil)
             (tern-mode)))
+
+(add-to-list 'load-path "~/.emacs.d/mu4e")
+(require 'mu4e);; example configuration for mu4e
+
+(setq mu4e-sent-folder   "/Sent Messages")
+(setq mu4e-drafts-folder "/Drafts")
+(setq mu4e-trash-folder  "/Deleted Messages")
+(setq mu4e-view-prefer-html t)
+
+(require 'evil-mu4e)
 
 ;; Custom set variables
 (custom-set-variables
