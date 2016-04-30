@@ -158,12 +158,14 @@
     (exec-path-from-shell-initialize)))
 
 (use-package helm
+  :config
   (use-package helm-swoop)
   (use-package helm-gtags
     :config
     (evil-leader/set-key "C" 'helm-gtags-create-tags)))
 
 (use-package julia-mode
+  :config
   (use-package julia-shell))
 
 (use-package elisp-slime-nav)
