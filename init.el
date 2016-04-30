@@ -173,6 +173,7 @@
 (use-package org)
 (use-package rainbow-delimiters)
 (use-package wgrep)
+(use-package adaptive-wrap)
 
 ;; compilation
 (setq compilation-scroll-output t)
