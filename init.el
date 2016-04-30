@@ -157,12 +157,16 @@
   (when (memq window-system '(mac ns))
     (exec-path-from-shell-initialize)))
 
+(use-package helm
+  (use-package helm-swoop)
+  (use-package helm-gtags
+    :config
+    (evil-leader/set-key "C" 'helm-gtags-create-tags)))
+
+(use-package julia-mode
+  (use-package julia-shell))
+
 (use-package elisp-slime-nav)
-(use-package helm)
-(use-package helm-gtags)
-(use-package helm-swoop)
-(use-package julia-mode)
-(use-package julia-shell)
 (use-package markdown-mode)
 (use-package org)
 (use-package rainbow-delimiters)
