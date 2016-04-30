@@ -105,7 +105,6 @@
   :bind ("C-c C-r" . ivy-resume)
   :config
   (ivy-mode 1)
-  (setq ivy-height 20)
   (setq ivy-use-virtual-buffers t)
   (evil-leader/set-key "o" 'ivy-switch-buffer))
 
