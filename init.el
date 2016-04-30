@@ -42,6 +42,7 @@
                         helm-gtags
                         helm-swoop
                         iedit
+                        ivy
                         julia-mode
                         julia-shell
                         magit
@@ -58,6 +59,7 @@
                         quickrun
                         yaml-mode
                         yasnippet
+                        wgrep
                         ws-butler
                         zenburn-theme)
   "A list of packages to ensure are installed at launch")
@@ -72,11 +74,14 @@
 
 (install-packages)
 
-(add-to-list 'load-path "~/.emacs.d/lisp")
-(require 'extensions)
+;; turn of GUI stuff
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(menu-bar-mode 0)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups" )))
 
+;; evil
 (evil-mode 1)
 (global-evil-surround-mode)
 (global-evil-leader-mode)
@@ -90,11 +95,10 @@
     (define-key (eval map) "\C-w" nil)))
 (require 'evil-nerd-commenter)
 
+;; ace window
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
-(blink-cursor-mode 0)
-(setq git-commit-finish-query-functions nil)
-
+;; company
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 (delete 'company-semantic company-backends)
@@ -102,17 +106,15 @@
 (setq company-minimum-prefix-length 2)
 (setq company-idle-delay 0.1)
 (setq company-dabbrev-downcase nil)
-
-(setq org-src-fontify-natively t)
-
-(setq require-final-newline t)
-
+;; yas
 (yas-global-mode)
 (yas-reload-all)
 
+;; projectile
 (projectile-global-mode 1)
 (setq projectile-completion-system 'ivy)
 
+;; ivy
 (setq ivy-height 20)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
@@ -122,46 +124,45 @@
  (defun move-to-match-beginning* (_)
    (goto-char (match-beginning 0))))
 
+;; compilation
 (setq compilation-scroll-output t)
 (setq compilation-ask-about-save nil)
 
+;; tex
 (setq-default TeX-engine 'xetex)
 (setq-default TeX-PDF-mode t)
 
-(setq-default fill-column 80)
-
+;; misc
+(blink-cursor-mode 0)
+(global-auto-revert-mode t)
+(global-hl-line-mode)
+(recentf-mode 1)
+(set-default 'truncate-lines t)
 (setq dired-dwim-target t)
-
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-
+(setq git-commit-finish-query-functions nil)
+(setq org-src-fontify-natively t)
+(setq require-final-newline t)
 (setq ring-bell-function 'ignore)
-
+(setq-default fill-column 80)
+(setq-default indent-tabs-mode nil)
 (show-paren-mode t)
 
-(global-hl-line-mode)
-
-(set-default 'truncate-lines t)
-
-(setq-default indent-tabs-mode nil)
-
-(recentf-mode 1)
-
-(global-auto-revert-mode t)
-
+;; theme
 (load-theme 'leuven t)
 
-(set-default-font "Inconsolata-14")
+;; font
+(set-default-font "Inconsolata-16")
 
+;; use command as meta under OS X
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'none))
 
+;; keybindings
 (define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-s" 'swiper)
+(global-set-key "\C-s" 'counsel-grep-or-swiper)
 (global-set-key (kbd "C-7") 'swiper-mc)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -206,6 +207,7 @@
   "W" 'helm-multi-swoop-all
   "X" 'delete-trailing-whitespace
   "F" 'open-finder
+  "Q" 'quickrun
   "a" 'ace-window
   "b" 'evil-scroll-page-up
   "c" 'projectile-compile-project
@@ -295,15 +297,66 @@
             (setq js2-strict-trailing-comma-warning nil)
             (tern-mode)))
 
-(add-to-list 'load-path "~/.emacs.d/mu4e")
-(require 'mu4e);; example configuration for mu4e
+(defun alternate-buffer ()
+  "Switch back and forth between current and last buffer"
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) t)))
 
-(setq mu4e-sent-folder   "/Sent Messages")
-(setq mu4e-drafts-folder "/Drafts")
-(setq mu4e-trash-folder  "/Deleted Messages")
-(setq mu4e-view-prefer-html t)
+(defun open-finder-1 (dir file)
+  (let ((script
+                 (if file
+                         (concat
+                          "tell application \"Finder\"\n"
+                          "    set frontmost to true\n"
+                          "    make new Finder window to (POSIX file \"" dir "\")\n"
+                          "    select file \"" file "\"\n"
+                          "end tell\n")
+                   (concat
+                        "tell application \"Finder\"\n"
+                        "    set frontmost to true\n"
+                        "    make new Finder window to {path to desktop folder}\n"
+                        "end tell\n"))))
+    (start-process "osascript-getinfo" nil "osascript" "-e" script)))
 
-(require 'evil-mu4e)
+(defun open-finder ()
+  (interactive)
+  (let ((path (buffer-file-name))
+                dir file)
+        (when path
+          (setq dir (file-name-directory path))
+          (setq file (file-name-nondirectory path)))
+        (open-finder-1 dir file)))
+
+(defun copy-file-name-to-clipboard ()
+  "Copy the current buffer file name to the clipboard."
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
+
+(defun prelude-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+If ARG is not nil or 1, move forward ARG - 1 lines first. If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
 
 ;; Custom set variables
 (custom-set-variables
