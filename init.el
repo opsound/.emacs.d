@@ -3,75 +3,13 @@
                          ("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
 (setq gc-cons-threshold 100000000)
 (setq inhibit-startup-message t)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-
-(defconst my-packages '(ace-window
-                        adaptive-wrap
-                        ag
-                        anaconda-mode
-                        auctex
-                        cider
-                        company
-                        company-jedi
-                        counsel
-                        delight
-                        dtrt-indent
-                        elisp-slime-nav
-                        evil
-                        evil-exchange
-                        evil-iedit-state
-                        evil-leader
-                        evil-matchit
-                        evil-magit
-                        evil-mc
-                        evil-nerd-commenter
-                        evil-numbers
-                        evil-surround
-                        exec-path-from-shell
-                        expand-region
-                        function-args
-                        iedit
-                        jedi
-                        geiser
-                        ggtags
-                        helm
-                        helm-gtags
-                        helm-swoop
-                        iedit
-                        ivy
-                        julia-mode
-                        julia-shell
-                        magit
-                        markdown-mode
-                        monokai-theme
-                        org
-                        projectile
-                        rainbow-delimiters
-                        rust-mode
-                        smartparens
-                        swiper
-                        solarized-theme
-                        tao-theme
-                        quickrun
-                        yaml-mode
-                        yasnippet
-                        wgrep
-                        ws-butler
-                        zenburn-theme)
-  "A list of packages to ensure are installed at launch")
-(defun install-packages ()
-  "Install all required packages."
-  (interactive)
-  (unless package-archive-contents
-    (package-refresh-contents))
-  (dolist (package my-packages)
-    (unless (package-installed-p package)
-      (package-install package))))
-
-(install-packages)
 
 ;; turn of GUI stuff
 (scroll-bar-mode 0)
@@ -80,62 +18,159 @@
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups" )))
 
-;; evil
-(evil-mode 1)
-(global-evil-surround-mode)
-(global-evil-leader-mode)
-(global-evil-matchit-mode)
-(evil-exchange-install)
-(evil-magit-init)
-(eval-after-load "evil-maps"
-  (dolist (map '(evil-motion-state-map
-                 evil-insert-state-map
-                 evil-emacs-state-map))
-    (define-key (eval map) "\C-w" nil)))
-(require 'evil-nerd-commenter)
+(setq use-package-always-ensure t)
 
-;; ace window
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(use-package evil
+  :config
+  (evil-mode 1)
 
-;; company
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-(delete 'company-semantic company-backends)
-;;(define-key c-mode-base-map [(tab)] 'company-complete)
-(setq company-minimum-prefix-length 2)
-(setq company-idle-delay 0.1)
-(setq company-dabbrev-downcase nil)
+  (use-package evil-surround
+    :config
+    (global-evil-surround-mode)
+    (evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region))
+
+  (use-package evil-matchit
+    :config
+    (global-evil-matchit-mode))
+
+  (use-package evil-exchange
+    :config
+    (evil-exchange-install))
+
+  (use-package evil-magit
+    :config
+    (evil-magit-init))
+
+  (use-package evil-leader
+    :config
+    (global-evil-leader-mode)
+    (evil-leader/set-leader "<SPC>")
+    (evil-leader/set-key
+      "+" 'text-scale-increase
+      "-" 'text-scale-decrease
+      "." 'ffap
+      "TAB" 'alternate-buffer
+      "A" 'package-list-packages
+      "X" 'delete-trailing-whitespace
+      "F" 'open-finder
+      "d" 'dired-jump
+      "e" 'eval-last-sexp
+      "h" 'help-command
+      "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
+      "s" 'save-buffer
+      "v" 'toggle-truncate-lines
+      "w" 'balance-windows
+      "z" 'eshell))
+
+  (use-package evil-nerd-commenter
+    :bind ("M-;" . evilnc-comment-or-uncomment-lines)
+    :config
+    (evil-leader/set-key
+      ":" 'evilnc-comment-or-uncomment-lines
+      ";" 'evilnc-comment-operator)))
+
+(use-package expand-region
+  :bind (:map evil-visual-state-map
+              ("x" . er/expand-region)
+              ("X" . er/contract-region)))
+
+(use-package ace-window
+  :bind ("C-l" . ace-delete-window)
+  :config
+  (evil-leader/set-key "a" 'ace-window)
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+(use-package company
+  :config
+  (global-company-mode))
 
 ;; ignore case for completion
 (setq completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
-;; yas
-(yas-global-mode)
-(yas-reload-all)
+(use-package yasnippet
+  :config
+  (yas-global-mode))
 
-;; projectile
-(projectile-global-mode 1)
-(setq projectile-completion-system 'ivy)
+(use-package projectile
+  :config
+  (projectile-global-mode 1)
+  (setq projectile-completion-system 'ivy)
+  (evil-leader/set-key
+    "c" 'projectile-compile-project
+    "p" 'projectile-switch-project))
 
-;; ivy
-(setq ivy-height 20)
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(advice-add
- 'swiper--action
- :after
- (defun move-to-match-beginning* (_)
-   (goto-char (match-beginning 0))))
+(use-package ivy
+  :bind ("C-c C-r" . ivy-resume)
+  :config
+  (ivy-mode 1)
+  (setq ivy-height 20)
+  (setq ivy-use-virtual-buffers t)
+  (evil-leader/set-key "o" 'ivy-switch-buffer))
+
+(use-package avy
+  :config
+  (evil-leader/set-key "<SPC>" 'avy-goto-word-1))
+
+(use-package swiper
+  :config
+  (advice-add
+   'swiper--action
+   :after
+   (defun move-to-match-beginning* (_)
+     (goto-char (match-beginning 0)))))
+
+(use-package counsel
+  :bind (("C-s" . counsel-grep-or-swiper)
+         ("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c g" . counsel-git)
+         ("C-c j" . counsel-git-grep)
+         ("C-c k" . counsel-ag)
+         ("C-x l" . counsel-locate))
+  :init
+  (evil-leader/set-key
+    "/" 'counsel-git-grep
+    "f" 'counsel-find-file
+    "j" 'counsel-git
+    "l" 'counsel-imenu
+    "x" 'counsel-M-x))
+
+(use-package iedit
+  :bind ("C-;" . iedit-mode))
+
+(use-package quickrun
+  :config
+  (evil-leader/set-key "Q" 'quickrun))
+
+(use-package magit
+  :config
+  (evil-leader/set-key "g" 'magit-status))
+
+(use-package jedi
+  :config
+  (setq jedi:complete-on-dot t))
+
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)))
+
+(use-package elisp-slime-nav)
+(use-package helm)
+(use-package helm-gtags)
+(use-package helm-swoop)
+(use-package julia-mode)
+(use-package julia-shell)
+(use-package markdown-mode)
+(use-package org)
+(use-package rainbow-delimiters)
+(use-package wgrep)
 
 ;; compilation
 (setq compilation-scroll-output t)
 (setq compilation-ask-about-save nil)
-
-;; tex
-(setq-default TeX-engine 'xetex)
-(setq-default TeX-PDF-mode t)
 
 ;; misc
 (blink-cursor-mode 0)
@@ -156,84 +191,28 @@
 (load-theme 'leuven t)
 
 ;; font
-(set-default-font "Inconsolata-16")
+(set-default-font "Menlo-12")
 
 ;; use command as meta under OS X
 (when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize)
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'none))
 
 ;; keybindings
 (define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key "\C-w" 'backward-kill-word)
-(global-set-key "\C-s" 'counsel-grep-or-swiper)
-(global-set-key (kbd "C-7") 'swiper-mc)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-c w") 'whitespace-mode)
 (global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-j") 'newline-and-indent)
-(global-set-key (kbd "C-;") 'iedit-mode)
-(global-set-key (kbd "C-l") 'ace-delete-window)
-(global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
 (global-set-key (kbd "M-0") 'delete-window)
 (global-set-key (kbd "M-1") 'delete-other-windows)
 (global-set-key (kbd "M-2") 'split-window-vertically)
 (global-set-key (kbd "M-3") 'split-window-horizontally)
 
-(define-key company-active-map (kbd "<tab>") 'company-complete)
-
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
-(define-key evil-visual-state-map (kbd "x") 'er/expand-region)
-(define-key evil-visual-state-map (kbd "X") 'er/contract-region)
 (define-key evil-insert-state-map (kbd "C-j") 'newline-and-indent)
-(evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
-
-(evil-leader/set-leader "<SPC>")
-(evil-leader/set-key
-  "+" 'text-scale-increase
-  "-" 'text-scale-decrease
-  "/" 'counsel-git-grep
-  ":" 'evilnc-comment-or-uncomment-lines
-  ";" 'evilnc-comment-operator
-  "." 'ffap
-  "<SPC>" 'avy-goto-word-1
-  "TAB" 'alternate-buffer
-  "A" 'package-list-packages
-  "C" 'helm-gtags-create-tags
-  "W" 'helm-multi-swoop-all
-  "X" 'delete-trailing-whitespace
-  "F" 'open-finder
-  "Q" 'quickrun
-  "a" 'ace-window
-  "b" 'evil-scroll-page-up
-  "c" 'projectile-compile-project
-  "d" 'dired-jump
-  "e" 'eval-last-sexp
-  "f" 'counsel-find-file
-  "g" 'magit-status
-  "h" 'help-command
-  "j" 'counsel-git
-  "l" 'counsel-imenu
-  "m" 'mu4e
-  "o" 'ivy-switch-buffer
-  "p" 'projectile-switch-project
-  "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
-  "s" 'save-buffer
-  "v" 'evil-scroll-page-down
-  "v" 'toggle-truncate-lines
-  "w" 'balance-windows
-  "x" 'counsel-M-x
-  "z" 'eshell
-  )
 
 (evil-leader/set-key-for-mode 'c++-mode
   "k" 'helm-gtags-dwim
@@ -258,15 +237,13 @@
 (evil-leader/set-key-for-mode 'python-mode
   "k" 'jedi:goto-definition
   "t" 'jedi:goto-definition-pop-marker)
-(setq jedi:complete-on-dot t)
 
 (add-hook 'prog-mode-hook
           (lambda ()
             (interactive)
             (hs-minor-mode)
-            (rainbow-delimiters-mode)
-            (ws-butler-mode)
-            (clean-aindent-mode)))
+            (electric-pair-mode)
+            (rainbow-delimiters-mode)))
 
 (add-hook 'c-mode-common-hook
           (lambda ()
@@ -280,7 +257,6 @@
             (c-set-offset 'substatement-open 0)
             (c-set-offset 'brace-list-open 0)
             (electric-pair-mode)
-            (ws-butler-mode)
             (yas-minor-mode)
             (adaptive-wrap-prefix-mode)
             (add-hook 'after-save-hook 'helm-gtags-update-tags nil 'local)
