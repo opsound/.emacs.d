@@ -106,6 +106,12 @@
 (setq company-minimum-prefix-length 2)
 (setq company-idle-delay 0.1)
 (setq company-dabbrev-downcase nil)
+
+;; ignore case for completion
+(setq completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
+(setq read-file-name-completion-ignore-case t)
+
 ;; yas
 (yas-global-mode)
 (yas-reload-all)
