@@ -161,7 +161,8 @@
   (use-package helm-swoop)
   (use-package helm-gtags
     :config
-    (evil-leader/set-key "C" 'helm-gtags-create-tags)))
+    (evil-leader/set-key "C" 'helm-gtags-create-tags)
+    (evil-leader/set-key "u" 'helm-gtags-update-tags)))
 
 (use-package julia-mode
   :config
