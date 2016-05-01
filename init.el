@@ -76,8 +76,9 @@
 
 (use-package ace-window
   :bind ("C-l" . ace-delete-window)
-  :config
+  :init
   (evil-leader/set-key "a" 'ace-window)
+  :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package company
