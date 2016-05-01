@@ -148,9 +148,10 @@
   :config
   (evil-leader/set-key "g" 'magit-status))
 
-(use-package jedi
+(use-package anaconda-mode
   :config
-  (setq jedi:complete-on-dot t))
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (use-package company-anaconda))
 
 (use-package exec-path-from-shell
   :config
@@ -242,10 +243,6 @@
   "K" 'elisp-slime-nav-describe-elisp-thing-at-point
   "t" 'pop-tag-mark)
 
-(evil-leader/set-key-for-mode 'python-mode
-  "k" 'jedi:goto-definition
-  "t" 'jedi:goto-definition-pop-marker)
-
 (add-hook 'prog-mode-hook
           (lambda ()
             (interactive)
@@ -273,10 +270,6 @@
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (elisp-slime-nav-mode 1)))
-
-(add-hook 'python-mode-hook
-          (lambda ()
-            (jedi:setup)))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js2-mode-hook
