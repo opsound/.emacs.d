@@ -3,6 +3,9 @@
                          ("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
+(when (not package-archive-contents)
+    (package-refresh-contents))
+
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
