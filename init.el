@@ -83,7 +83,7 @@
 
 (use-package company
   :config
-  (global-company-mode))
+  (define-key company-active-map "\C-w" nil))
 
 ;; ignore case for completion
 (setq completion-ignore-case t)
