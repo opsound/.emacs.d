@@ -101,9 +101,11 @@
   :config
   (projectile-global-mode 1)
   (setq projectile-completion-system 'ivy)
-  (evil-leader/set-key
-    "c" 'projectile-compile-project
-    "p" 'projectile-switch-project))
+  (evil-leader/set-key "c" 'projectile-compile-project)
+  
+  (use-package counsel-projectile
+    :config
+    (evil-leader/set-key "p" 'counsel-projectile)))
 
 (use-package ivy
   :bind ("C-c C-r" . ivy-resume)
