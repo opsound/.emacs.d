@@ -169,13 +169,27 @@
   (use-package helm-gtags
     :config
     (evil-leader/set-key "C" 'helm-gtags-create-tags)
-    (evil-leader/set-key "u" 'helm-gtags-update-tags)))
+    (evil-leader/set-key "u" 'helm-gtags-update-tags)
+    (evil-leader/set-key-for-mode 'c-mode
+      "k" 'helm-gtags-dwim
+      "t" 'helm-gtags-pop-stack
+      (kbd "C-k") 'helm-gtags-find-tag-other-window
+      "u" (lambda ()
+            (interactive)
+            (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))))
 
 (use-package julia-mode
   :config
   (use-package julia-shell))
 
-(use-package elisp-slime-nav)
+(use-package elisp-slime-nav
+  :config
+  (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode 1)))
+  (evil-leader/set-key-for-mode 'emacs-lisp-mode
+    "k" 'elisp-slime-nav-find-elisp-thing-at-point
+    "K" 'elisp-slime-nav-describe-elisp-thing-at-point
+    "t" 'pop-tag-mark))
+
 (use-package markdown-mode)
 (use-package org)
 (use-package rainbow-delimiters)
@@ -228,26 +242,6 @@
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
 (define-key evil-insert-state-map (kbd "C-j") 'newline-and-indent)
 
-(evil-leader/set-key-for-mode 'c++-mode
-  "k" 'helm-gtags-dwim
-  "t" 'helm-gtags-pop-stack
-  (kbd "C-k") 'helm-gtags-find-tag-other-window
-  "K" 'semantic-goto-definition
-  "T" 'semantic-pop-tag-mark)
-
-(evil-leader/set-key-for-mode 'c-mode
-  "k" 'helm-gtags-dwim
-  "t" 'helm-gtags-pop-stack
-  (kbd "C-k") 'helm-gtags-find-tag-other-window
-  "K" 'semantic-goto-definition
-  "T" 'semantic-pop-tag-mark
-  "u" (lambda () (interactive) (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))
-
-(evil-leader/set-key-for-mode 'emacs-lisp-mode
-  "k" 'elisp-slime-nav-find-elisp-thing-at-point
-  "K" 'elisp-slime-nav-describe-elisp-thing-at-point
-  "t" 'pop-tag-mark)
-
 (add-hook 'prog-mode-hook
           (lambda ()
             (interactive)
@@ -271,10 +265,6 @@
             (adaptive-wrap-prefix-mode)
             (add-hook 'after-save-hook 'helm-gtags-update-tags nil 'local)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (elisp-slime-nav-mode 1)))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js2-mode-hook
