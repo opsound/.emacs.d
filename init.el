@@ -119,6 +119,9 @@
   (evil-leader/set-key "<SPC>" 'avy-goto-word-1))
 
 (use-package swiper
+  :init
+  (global-unset-key "\M-s")
+  :bind ("M-s" . swiper-all)
   :config
   (advice-add
    'swiper--action
