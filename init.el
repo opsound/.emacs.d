@@ -267,7 +267,6 @@
             (yas-minor-mode)
             (adaptive-wrap-prefix-mode)
             (cwarn-mode)
-            (add-hook 'after-save-hook 'helm-gtags-update-tags nil 'local)
             (setq-local company-backends '(company-gtags company-dabbrev-code))))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
