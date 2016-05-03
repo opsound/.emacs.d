@@ -86,7 +86,8 @@
 
 (use-package company
   :config
-  (define-key company-active-map "\C-w" nil))
+  (define-key company-active-map "\C-w" nil)
+  (add-hook 'prog-mode-hook (lambda () (company-mode))))
 
 ;; ignore case for completion
 (setq completion-ignore-case t)
@@ -193,9 +194,20 @@
     "K" 'elisp-slime-nav-describe-elisp-thing-at-point
     "t" 'pop-tag-mark))
 
+(use-package paredit
+  :config
+  (add-hook 'emacs-lisp-mode-hook (lambda () (paredit-mode))))
+
+(use-package leuven-theme
+  :config
+  (load-theme 'leuven t))
+
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
+
 (use-package markdown-mode)
 (use-package org)
-(use-package rainbow-delimiters)
 (use-package wgrep)
 (use-package adaptive-wrap)
 
@@ -218,11 +230,8 @@
 (setq-default indent-tabs-mode nil)
 (show-paren-mode t)
 
-;; theme
-(load-theme 'leuven t)
-
 ;; font
-(set-default-font "Menlo-12")
+(set-default-font "Inconsolata-16")
 
 ;; use command as meta under OS X
 (when (memq window-system '(mac ns))
@@ -249,8 +258,7 @@
           (lambda ()
             (interactive)
             (hs-minor-mode)
-            (electric-pair-mode)
-            (rainbow-delimiters-mode)))
+            (electric-pair-mode)))
 
 (add-hook 'c-mode-common-hook
           (lambda ()
