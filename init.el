@@ -9,7 +9,6 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
-(setq gc-cons-threshold 100000000)
 (setq inhibit-startup-message t)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
