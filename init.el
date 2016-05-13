@@ -4,7 +4,7 @@
 (package-initialize)
 
 (when (not package-archive-contents)
-    (package-refresh-contents))
+  (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
@@ -210,6 +210,7 @@
 (use-package org)
 (use-package wgrep)
 (use-package adaptive-wrap)
+(use-package clean-aindent-mode)
 
 ;; compilation
 (setq compilation-scroll-output t)
@@ -292,28 +293,28 @@
 
 (defun open-finder-1 (dir file)
   (let ((script
-                 (if file
-                         (concat
-                          "tell application \"Finder\"\n"
-                          "    set frontmost to true\n"
-                          "    make new Finder window to (POSIX file \"" dir "\")\n"
-                          "    select file \"" file "\"\n"
-                          "end tell\n")
-                   (concat
-                        "tell application \"Finder\"\n"
-                        "    set frontmost to true\n"
-                        "    make new Finder window to {path to desktop folder}\n"
-                        "end tell\n"))))
+         (if file
+             (concat
+              "tell application \"Finder\"\n"
+              "    set frontmost to true\n"
+              "    make new Finder window to (POSIX file \"" dir "\")\n"
+              "    select file \"" file "\"\n"
+              "end tell\n")
+           (concat
+            "tell application \"Finder\"\n"
+            "    set frontmost to true\n"
+            "    make new Finder window to {path to desktop folder}\n"
+            "end tell\n"))))
     (start-process "osascript-getinfo" nil "osascript" "-e" script)))
 
 (defun open-finder ()
   (interactive)
   (let ((path (buffer-file-name))
-                dir file)
-        (when path
-          (setq dir (file-name-directory path))
-          (setq file (file-name-nondirectory path)))
-        (open-finder-1 dir file)))
+        dir file)
+    (when path
+      (setq dir (file-name-directory path))
+      (setq file (file-name-nondirectory path)))
+    (open-finder-1 dir file)))
 
 (defun copy-file-name-to-clipboard ()
   "Copy the current buffer file name to the clipboard."
