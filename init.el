@@ -231,8 +231,9 @@
 (show-paren-mode t)
 
 ;; font
-(when (member "Inconsolata" (font-family-list))
-  (set-default-font "Inconsolata-16"))
+(if (member "Inconsolata" (font-family-list))
+    (set-default-font "Inconsolata-16")
+  (set-default-font "Menlo-14"))
 
 ;; use command as meta under OS X
 (when (memq window-system '(mac ns))
