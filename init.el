@@ -156,10 +156,13 @@
   :config
   (evil-leader/set-key "g" 'magit-status))
 
-(use-package anaconda-mode
+(use-package company-jedi
   :config
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (use-package company-anaconda))
+  (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)
+                                (jedi-mode t)))
+  (evil-leader/set-key-for-mode 'python-mode
+    "k" 'jedi:goto-definition
+    "t" 'jedi:goto-definition-pop-marker))
 
 (use-package exec-path-from-shell
   :config
