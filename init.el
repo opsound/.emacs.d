@@ -208,6 +208,10 @@
   :config
   (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
 
+(use-package relative-line-numbers
+  :config
+  (global-relative-line-numbers-mode))
+
 (use-package markdown-mode)
 (use-package org)
 (use-package wgrep)
