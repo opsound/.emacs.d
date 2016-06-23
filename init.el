@@ -69,7 +69,7 @@
     :config
     (evil-leader/set-key
       ":" 'evilnc-comment-or-uncomment-lines
-      ";" 'evilnc-comment-operator)))
+      "p" 'evilnc-comment-operator)))
 
 (use-package expand-region
   :bind (:map evil-visual-state-map
@@ -105,7 +105,7 @@
   
   (use-package counsel-projectile
     :config
-    (evil-leader/set-key "p" 'counsel-projectile)))
+    (evil-leader/set-key ";" 'counsel-projectile)))
 
 (use-package ivy
   :bind ("C-c C-r" . ivy-resume)
@@ -182,7 +182,14 @@
       (kbd "C-k") 'helm-gtags-find-tag-other-window
       "u" (lambda ()
             (interactive)
-            (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))))
+            (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))
+    (evil-leader/set-key-for-mode 'objc-mode
+        "k" 'helm-gtags-dwim
+        "t" 'helm-gtags-pop-stack
+        (kbd "C-k") 'helm-gtags-find-tag-other-window
+        "u" (lambda ()
+                (interactive)
+                (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))))
 
 (use-package julia-mode
   :config
@@ -208,9 +215,9 @@
   :config
   (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
 
-(use-package relative-line-numbers
-  :config
-  (global-relative-line-numbers-mode))
+;; (use-package relative-line-numbers
+;;   :config
+;;   (add-hook 'prog-mode-hook (lambda () (relative-line-numbers-mode))))
 
 (use-package markdown-mode)
 (use-package org)
@@ -239,7 +246,7 @@
 
 ;; font
 (when (member "Inconsolata" (font-family-list))
-  (set-default-font "Inconsolata-16"))
+  (set-default-font "Inconsolata-14"))
 
 ;; use command as meta under OS X
 (when (memq window-system '(mac ns))
@@ -357,6 +364,12 @@ point reaches the beginning or end of the buffer, stop there."
 ;; Custom set variables
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(realgud:pdb-command-name "python -m pdb"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
