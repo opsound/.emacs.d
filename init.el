@@ -57,7 +57,7 @@
       "F" 'open-finder
       "d" 'dired-jump
       "e" 'eval-last-sexp
-      "h" 'help-command
+      "o" 'help-command
       "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
       "s" 'save-buffer
       "v" 'toggle-truncate-lines
@@ -112,7 +112,7 @@
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (evil-leader/set-key "o" 'ivy-switch-buffer))
+  (evil-leader/set-key "i" 'ivy-switch-buffer))
 
 (use-package avy
   :config
