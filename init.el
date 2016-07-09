@@ -247,7 +247,7 @@
 ;; font
 (if (member "Inconsolata" (font-family-list))
     (set-default-font "Inconsolata-14")
-  (set-default-font "Menlo-14"))
+  (set-default-font "Menlo-12"))
 
 ;; use command as meta under OS X
 (when (memq window-system '(mac ns))
