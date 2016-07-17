@@ -112,7 +112,10 @@
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (evil-leader/set-key "i" 'ivy-switch-buffer))
+  (evil-leader/set-key
+    "i" 'ivy-switch-buffer
+    "v" 'ivy-push-view
+    "V" 'ivy-pop-view))
 
 (use-package avy
   :config
