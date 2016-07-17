@@ -210,9 +210,9 @@
   :config
   (add-hook 'emacs-lisp-mode-hook (lambda () (paredit-mode))))
 
-(use-package leuven-theme
+(use-package color-theme-sanityinc-tomorrow
   :config
-  (load-theme 'leuven t))
+  (load-theme 'sanityinc-tomorrow-eighties t))
 
 (use-package rainbow-delimiters
   :config
@@ -366,15 +366,3 @@ point reaches the beginning or end of the buffer, stop there."
       (move-beginning-of-line 1))))
 
 ;; Custom set variables
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(realgud:pdb-command-name "python -m pdb"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
