@@ -25,6 +25,8 @@
 (use-package evil
   :config
   (evil-mode 1)
+  (global-unset-key (kbd "C-SPC"))
+  (global-set-key (kbd "C-SPC") 'evil-force-normal-state)
 
   (use-package evil-surround
     :config
