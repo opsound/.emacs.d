@@ -25,8 +25,6 @@
 (use-package evil
   :config
   (evil-mode 1)
-  (global-unset-key (kbd "C-SPC"))
-  (global-set-key (kbd "C-SPC") 'evil-force-normal-state)
 
   (use-package evil-surround
     :config
@@ -76,7 +74,7 @@
   (use-package evil-escape
     :config
     (evil-escape-mode)
-    (setq-default evil-escape-key-sequence "fd")))
+    (setq-default evil-escape-key-sequence "fj")))
 
 (use-package expand-region
   :bind (:map evil-visual-state-map
