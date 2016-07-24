@@ -243,9 +243,7 @@
   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
-  (use-package company-irony
-    :config
-    (add-to-list 'company-backends 'company-irony)))
+  (use-package company-irony))
 
 (use-package rtags
   :config
