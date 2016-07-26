@@ -201,12 +201,12 @@
             (interactive)
             (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))
     (evil-leader/set-key-for-mode 'objc-mode
-        "k" 'helm-gtags-dwim
-        "t" 'helm-gtags-pop-stack
-        (kbd "C-k") 'helm-gtags-find-tag-other-window
-        "u" (lambda ()
-                (interactive)
-                (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))))
+      "k" 'helm-gtags-dwim
+      "t" 'helm-gtags-pop-stack
+      (kbd "C-k") 'helm-gtags-find-tag-other-window
+      "u" (lambda ()
+            (interactive)
+            (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))))
 
 (use-package julia-mode
   :config
