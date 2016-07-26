@@ -120,7 +120,8 @@
   (evil-leader/set-key
     "i" 'ivy-switch-buffer
     "v" 'ivy-push-view
-    "V" 'ivy-pop-view))
+    "V" 'ivy-pop-view)
+  (use-package ivy-hydra))
 
 (use-package avy
   :config
