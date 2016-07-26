@@ -110,7 +110,13 @@
   
   (use-package counsel-projectile
     :config
-    (evil-leader/set-key ";" 'counsel-projectile)))
+    (evil-leader/set-key ";" 'counsel-projectile)
+    (ivy-add-actions
+     'counsel-projectile
+     '(("/" (lambda (dir)
+              (let ((projectile-switch-project-action 'counsel-git-grep))
+                (projectile-switch-project-by-name dir arg)))
+        "counsel git grep")))))
 
 (use-package hydra)
 
