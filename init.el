@@ -112,6 +112,8 @@
     :config
     (evil-leader/set-key ";" 'counsel-projectile)))
 
+(use-package hydra)
+
 (use-package ivy
   :bind ("C-c C-r" . ivy-resume)
   :config
@@ -153,6 +155,10 @@
     "j" 'counsel-git
     "l" 'counsel-imenu
     "x" 'counsel-M-x))
+
+(use-package tiny
+  :config
+  (global-set-key (kbd "C-'") 'tiny-expand))
 
 (use-package iedit
   :bind ("C-;" . iedit-mode))
