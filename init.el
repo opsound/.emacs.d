@@ -140,6 +140,8 @@
    (defun move-to-match-beginning* (_)
      (goto-char (match-beginning 0)))))
 
+(use-package smex)
+
 (use-package counsel
   :bind (("C-s" . counsel-grep-or-swiper)
          ("M-x" . counsel-M-x)
