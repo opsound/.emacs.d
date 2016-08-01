@@ -258,6 +258,8 @@
 
   (use-package company-irony))
 
+(use-package flycheck)
+
 (use-package rtags
   :config
   (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
