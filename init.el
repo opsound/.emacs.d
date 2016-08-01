@@ -197,22 +197,20 @@
   (use-package helm-swoop)
   (use-package helm-gtags
     :config
+    (defun my-helm-gtags-evil-leader-setup (mode)
+      (evil-leader/set-key-for-mode mode
+        "K" 'helm-gtags-dwim
+        "T" 'helm-gtags-pop-stack
+        (kbd "C-k") 'helm-gtags-find-tag-other-window
+        "u" (lambda ()
+              (interactive)
+              (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))) 
+
     (evil-leader/set-key "C" 'helm-gtags-create-tags)
     (evil-leader/set-key "u" 'helm-gtags-update-tags)
-    (evil-leader/set-key-for-mode 'c-mode
-      "k" 'helm-gtags-dwim
-      "t" 'helm-gtags-pop-stack
-      (kbd "C-k") 'helm-gtags-find-tag-other-window
-      "u" (lambda ()
-            (interactive)
-            (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))
-    (evil-leader/set-key-for-mode 'objc-mode
-      "k" 'helm-gtags-dwim
-      "t" 'helm-gtags-pop-stack
-      (kbd "C-k") 'helm-gtags-find-tag-other-window
-      "u" (lambda ()
-            (interactive)
-            (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))))
+    (my-helm-gtags-evil-leader-setup 'c-mode)
+    (my-helm-gtags-evil-leader-setup 'c++-mode)
+    (my-helm-gtags-evil-leader-setup 'objc-mode)))
 
 (use-package julia-mode
   :config
