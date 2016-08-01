@@ -265,14 +265,18 @@
   (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
   (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
   (evil-leader/set-key-for-mode 'c-mode
-    "K" 'rtags-find-symbol-at-point
-    "T" 'rtags-location-stack-back))
+    "k" 'rtags-find-symbol-at-point
+    "t" 'rtags-location-stack-back)
+  (evil-leader/set-key-for-mode 'c++-mode
+    "k" 'rtags-find-symbol-at-point
+    "t" 'rtags-location-stack-back))
 
 (use-package markdown-mode)
 (use-package org)
 (use-package wgrep)
 (use-package adaptive-wrap)
 (use-package clean-aindent-mode)
+(use-package cmake-mode)
 
 ;; compilation
 (setq compilation-scroll-output t)
