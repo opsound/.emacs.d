@@ -262,6 +262,12 @@
 
 (use-package rtags
   :config
+  (rtags-enable-standard-keybindings)
+  (setq rtags-autostart-diagnostics t)
+  (rtags-diagnostics)
+  (setq rtags-completions-enabled t)
+  (push 'company-rtags company-backends)
+
   (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
   (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
   (evil-leader/set-key-for-mode 'c-mode
@@ -343,9 +349,7 @@
             (electric-pair-mode)
             (yas-minor-mode)
             (adaptive-wrap-prefix-mode)
-            (cwarn-mode)
-            (rtags-start-process-unless-running)
-            (setq-local company-backends '(company-irony company-gtags company-dabbrev-code))))
+            (cwarn-mode)))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-hook 'js2-mode-hook
