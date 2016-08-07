@@ -261,20 +261,23 @@
 
 (use-package rtags
   :config
-  (rtags-enable-standard-keybindings)
-  (setq rtags-autostart-diagnostics t)
-  (rtags-diagnostics)
-  (setq rtags-completions-enabled t)
-  (push 'company-rtags company-backends)
+  ;; (rtags-enable-standard-keybindings)
+  ;; (setq rtags-autostart-diagnostics t)
+  ;; (rtags-diagnostics)
+  ;; (setq rtags-completions-enabled t)
+  ;; (push 'company-rtags company-backends)
+  (defun my-rtags-evil-leader-setup (mode)
+    (evil-leader/set-key-for-mode mode
+      "k" 'rtags-find-symbol-at-point
+      "t" 'rtags-location-stack-back
+      "r n" 'rtags-next-match
+      "r p" 'rtags-previous-match
+      "r r" 'rtags-find-references-at-point))
 
   (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
   (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
-  (evil-leader/set-key-for-mode 'c-mode
-    "k" 'rtags-find-symbol-at-point
-    "t" 'rtags-location-stack-back)
-  (evil-leader/set-key-for-mode 'c++-mode
-    "k" 'rtags-find-symbol-at-point
-    "t" 'rtags-location-stack-back))
+  (my-rtags-evil-leader-setup 'c-mode)
+  (my-rtags-evil-leader-setup 'c++-mode))
 
 (use-package markdown-mode)
 (use-package org)
