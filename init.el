@@ -51,6 +51,7 @@
       "-" 'text-scale-decrease
       "." 'ffap
       "TAB" 'alternate-buffer
+      "`" 'ff-find-other-file
       "A" 'package-list-packages
       "X" 'delete-trailing-whitespace
       "F" 'open-finder
