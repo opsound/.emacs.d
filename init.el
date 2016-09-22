@@ -91,6 +91,7 @@
 (use-package company
   :config
   (define-key company-active-map "\C-w" nil)
+  (setq company-idle-delay 0)
   (add-hook 'prog-mode-hook (lambda () (company-mode))))
 
 ;; ignore case for completion
@@ -256,7 +257,9 @@
   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
-  (use-package company-irony))
+  (use-package company-irony
+    :config
+    (push 'company-irony company-backends)))
 
 (use-package flycheck)
 
@@ -286,6 +289,7 @@
 (use-package adaptive-wrap)
 (use-package clean-aindent-mode)
 (use-package cmake-mode)
+(use-package protobuf-mode)
 
 ;; compilation
 (setq compilation-scroll-output t)
