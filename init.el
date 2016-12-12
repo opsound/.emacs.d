@@ -111,7 +111,7 @@
   
   (use-package counsel-projectile
     :config
-    (evil-leader/set-key ";" 'counsel-projectile)
+    (evil-leader/set-key ";" 'counsel-projectile-switch-project)
     (ivy-add-actions
      'counsel-projectile
      '(("/" (lambda (dir)
