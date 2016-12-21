@@ -92,6 +92,7 @@
   :config
   (define-key company-active-map "\C-w" nil)
   (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 2)
   (add-hook 'prog-mode-hook (lambda () (company-mode))))
 
 ;; ignore case for completion
@@ -263,6 +264,22 @@
   (my-rtags-evil-leader-setup 'c-mode)
   (my-rtags-evil-leader-setup 'c++-mode))
 
+(use-package irony
+  :config
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'objc-mode-hook 'irony-mode)
+
+  ;; replace the `completion-at-point' and `complete-symbol' bindings in
+  ;; irony-mode's buffers by irony-mode's function
+  (defun my-irony-mode-hook ()
+    (define-key irony-mode-map [remap completion-at-point]
+      'irony-completion-at-point-async)
+    (define-key irony-mode-map [remap complete-symbol]
+      'irony-completion-at-point-async))
+  (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
 (use-package markdown-mode)
 (use-package org)
 (use-package wgrep)
@@ -291,9 +308,7 @@
 (show-paren-mode t)
 
 ;; font
-(if (member "Inconsolata" (font-family-list))
-    (set-default-font "Inconsolata-14")
-  (set-default-font "Menlo-12"))
+(set-default-font "Menlo-12")
 
 ;; use command as meta under OS X
 (when (memq window-system '(mac ns))
@@ -304,7 +319,6 @@
 (define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key (kbd "C-c w") 'whitespace-mode)
-(global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
@@ -385,26 +399,5 @@
     (when filename
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
-
-(defun prelude-move-beginning-of-line (arg)
-  "Move point back to indentation of beginning of line.
-Move point to the first non-whitespace character on this line.
-If point is already there, move to the beginning of the line.
-Effectively toggle between the first non-whitespace character and
-the beginning of the line.
-If ARG is not nil or 1, move forward ARG - 1 lines first. If
-point reaches the beginning or end of the buffer, stop there."
-  (interactive "^p")
-  (setq arg (or arg 1))
-
-  ;; Move lines first
-  (when (/= arg 1)
-    (let ((line-move-visual nil))
-      (forward-line (1- arg))))
-
-  (let ((orig-point (point)))
-    (back-to-indentation)
-    (when (= orig-point (point))
-      (move-beginning-of-line 1))))
 
 ;; Custom set variables
