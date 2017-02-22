@@ -233,26 +233,24 @@
 
 (use-package flycheck)
 
-(use-package rtags
-  :config
-  (rtags-enable-standard-keybindings)
-  (setq rtags-autostart-diagnostics t)
-  (rtags-diagnostics)
-  (setq rtags-completions-enabled t)
-  (push 'company-rtags company-backends)
-  (defun my-rtags-evil-leader-setup (mode)
-    (evil-leader/set-key-for-mode mode
-      "k" 'rtags-find-symbol-at-point
-      "t" 'rtags-location-stack-back
-      "r n" 'rtags-next-match
-      "r p" 'rtags-previous-match
-      "r r" 'rtags-find-references-at-point
-      "r R" 'rtags-rename-symbol))
-
-  (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
-  (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
-  (my-rtags-evil-leader-setup 'c-mode)
-  (my-rtags-evil-leader-setup 'c++-mode))
+;; (use-package rtags
+;;   :config
+;;   (rtags-enable-standard-keybindings)
+;;   (setq rtags-rc-log-enabled t)
+;;   (setq rtags-autostart-diagnostics t)
+;;   (rtags-diagnostics)
+;;   (setq rtags-completions-enabled t)
+;;   (push 'company-rtags company-backends)
+;;   (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
+;;   (mapcar (lambda (mode)
+;;             (evil-leader/set-key-for-mode mode
+;;               "k" 'rtags-find-symbol-at-point
+;;               "t" 'rtags-location-stack-back
+;;               "r n" 'rtags-next-match
+;;               "r p" 'rtags-previous-match
+;;               "r r" 'rtags-find-references-at-point
+;;               "r R" 'rtags-rename-symbol))
+;;           (list 'c-mode 'c++-mode 'objc-mode)))
 
 ;; (use-package irony
 ;;   :config
