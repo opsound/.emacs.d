@@ -164,7 +164,16 @@
     "f" 'counsel-find-file
     "j" 'counsel-git
     "l" 'counsel-imenu
-    "x" 'counsel-M-x))
+    "x" 'counsel-M-x)
+  (use-package counsel-gtags
+    :config
+    (mapcar '(lambda (mode)  
+               (evil-leader/set-key-for-mode mode
+                 "K" 'counsel-gtags-dwim
+                 "T" 'counsel-gtags-pop
+                 "C" 'counsel-gtags-create-tags
+                 "U" 'counsel-gtags-update-tags))
+            '('c-mode 'c++-mode 'objc-mode))))
 
 (use-package tiny
   :config
@@ -193,26 +202,6 @@
   :config
   (when (memq window-system '(mac ns))
     (exec-path-from-shell-initialize)))
-
-(use-package helm
-  :config
-  (use-package helm-swoop)
-  (use-package helm-gtags
-    :config
-    (defun my-helm-gtags-evil-leader-setup (mode)
-      (evil-leader/set-key-for-mode mode
-        "K" 'helm-gtags-dwim
-        "T" 'helm-gtags-pop-stack
-        (kbd "C-k") 'helm-gtags-find-tag-other-window
-        "u" (lambda ()
-              (interactive)
-              (let ((current-prefix-arg '(4))) (call-interactively 'helm-gtags-update-tags))))) 
-
-    (evil-leader/set-key "C" 'helm-gtags-create-tags)
-    (evil-leader/set-key "u" 'helm-gtags-update-tags)
-    (my-helm-gtags-evil-leader-setup 'c-mode)
-    (my-helm-gtags-evil-leader-setup 'c++-mode)
-    (my-helm-gtags-evil-leader-setup 'objc-mode)))
 
 (use-package julia-mode
   :config
@@ -331,6 +320,12 @@
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
 (define-key evil-insert-state-map (kbd "C-j") 'newline-and-indent)
 
+(defconst my-cc-style
+  '("cc-mode"
+    (c-offsets-alist . ((innamespace . [0])))))
+
+(c-add-style "my-cc-mode" my-cc-style)
+
 (add-hook 'prog-mode-hook
           (lambda ()
             (interactive)
@@ -402,3 +397,17 @@
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 ;; Custom set variables
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (function-args linum-relative speed-type counsel-gtags protobuf-mode cmake-mode clean-aindent-mode adaptive-wrap wgrep markdown-mode irony yasnippet use-package tiny smex rtags rainbow-delimiters quickrun paredit julia-shell ivy-hydra iedit helm-swoop helm-gtags flycheck expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit evil-magit evil-leader evil-exchange evil-escape elisp-slime-nav counsel-projectile company-jedi color-theme-sanityinc-tomorrow ace-window))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
