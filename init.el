@@ -170,13 +170,13 @@
     "x" 'counsel-M-x)
   (use-package counsel-gtags
     :config
-    (mapcar '(lambda (mode)  
+    (mapcar (lambda (mode)  
                (evil-leader/set-key-for-mode mode
                  "K" 'counsel-gtags-dwim
                  "T" 'counsel-gtags-pop
                  "C" 'counsel-gtags-create-tags
                  "U" 'counsel-gtags-update-tags))
-            '('c-mode 'c++-mode 'objc-mode))))
+            (list 'c-mode 'c++-mode 'objc-mode))))
 
 (use-package tiny
   :config
