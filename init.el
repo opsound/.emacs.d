@@ -42,6 +42,9 @@
     :config
     (evil-magit-init))
 
+  (use-package evil-ediff)
+  (use-package evil-iedit-state)
+
   (use-package evil-leader
     :config
     (global-evil-leader-mode)
