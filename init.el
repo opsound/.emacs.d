@@ -76,12 +76,7 @@
     :config
     (evil-leader/set-key
       ":" 'evilnc-comment-or-uncomment-lines
-      "p" 'evilnc-comment-operator))
-
-  (use-package evil-escape
-    :config
-    (evil-escape-mode)
-    (setq-default evil-escape-key-sequence "fj")))
+      "p" 'evilnc-comment-operator)))
 
 (use-package expand-region
   :bind (:map evil-visual-state-map
