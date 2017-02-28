@@ -276,7 +276,7 @@
 (use-package protobuf-mode)
 
 ;; compilation
-(setq compilation-scroll-output t)
+(setq compilation-scroll-output nil)
 (setq compilation-ask-about-save nil)
 
 ;; misc
