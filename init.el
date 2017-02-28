@@ -233,6 +233,16 @@
 
 (use-package flycheck)
 
+(use-package dumb-jump
+  :config
+  (dumb-jump-mode)
+  (setq dumb-jump-selector 'ivy)
+  (mapcar (lambda (mode)
+            (evil-leader/set-key-for-mode mode
+              "k" 'dumb-jump-go
+              "t" 'dumb-jump-back))
+          (list 'c-mode 'c++-mode 'objc-mode)))
+
 ;; (use-package rtags
 ;;   :config
 ;;   (rtags-enable-standard-keybindings)
