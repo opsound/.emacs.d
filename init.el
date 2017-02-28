@@ -317,12 +317,6 @@
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
 (define-key evil-insert-state-map (kbd "C-j") 'newline-and-indent)
 
-(defconst my-cc-style
-  '("cc-mode"
-    (c-offsets-alist . ((innamespace . [0])))))
-
-(c-add-style "my-cc-mode" my-cc-style)
-
 (add-hook 'prog-mode-hook
           (lambda ()
             (interactive)
@@ -340,6 +334,7 @@
             (c-set-offset 'case-label 0)
             (c-set-offset 'substatement-open 0)
             (c-set-offset 'brace-list-open 0)
+            (c-set-offset 'innamespace 0)
             (electric-pair-mode)
             (yas-minor-mode)
             (adaptive-wrap-prefix-mode)
