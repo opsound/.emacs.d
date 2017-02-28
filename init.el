@@ -230,10 +230,6 @@
   :config
   (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode))))
 
-;; (use-package relative-line-numbers
-;;   :config
-;;   (add-hook 'prog-mode-hook (lambda () (relative-line-numbers-mode))))
-
 (use-package flycheck)
 
 ;; (use-package rtags
