@@ -60,12 +60,13 @@
       "F" 'open-finder
       "d" 'dired-jump
       "e" 'eval-last-sexp
+      "E" 'eval-print-last-sexp
       "o" 'help-command
       "q" (lambda () (interactive) (find-file-existing "~/.emacs.d/init.el"))
       "s" 'save-buffer
       "v" 'toggle-truncate-lines
       "w" 'balance-windows
-      "z" 'eshell))
+      "z" 'os-switch-to-term))
 
   (use-package evil-nerd-commenter
     :bind ("M-;" . evilnc-comment-or-uncomment-lines)
@@ -387,6 +388,10 @@
     (when filename
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
+
+(defun os-switch-to-term ()
+  (interactive)
+  (do-applescript "tell application \"iTerm\" to activate"))
 
 ;; Custom set variables
 (custom-set-variables
