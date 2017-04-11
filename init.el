@@ -76,7 +76,7 @@
     :config
     (evil-leader/set-key
       ":" 'evilnc-comment-or-uncomment-lines
-      "p" 'evilnc-comment-operator)))
+      "h" 'evilnc-comment-operator)))
 
 (use-package expand-region
   :bind (:map evil-visual-state-map
@@ -192,13 +192,12 @@
   :config
   (evil-leader/set-key "g" 'magit-status))
 
-(use-package company-jedi
+(use-package elpy
   :config
-  (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)
-                                (jedi-mode t)))
+  (elpy-enable)
   (evil-leader/set-key-for-mode 'python-mode
-    "k" 'jedi:goto-definition
-    "t" 'jedi:goto-definition-pop-marker))
+    "K" 'elpy-goto-definition
+    "T" 'pop-tag-mark))
 
 (use-package exec-path-from-shell
   :config
@@ -239,7 +238,7 @@
             (evil-leader/set-key-for-mode mode
               "k" 'dumb-jump-go
               "t" 'dumb-jump-back))
-          (list 'c-mode 'c++-mode 'objc-mode)))
+          (list 'python-mode 'c-mode 'c++-mode 'objc-mode)))
 
 ;; (use-package rtags
 ;;   :config
