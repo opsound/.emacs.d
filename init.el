@@ -196,8 +196,8 @@
   :config
   (elpy-enable)
   (evil-leader/set-key-for-mode 'python-mode
-    "K" 'elpy-goto-definition
-    "T" 'pop-tag-mark))
+    "k" 'elpy-goto-definition
+    "t" 'pop-tag-mark))
 
 (use-package exec-path-from-shell
   :config
@@ -314,8 +314,6 @@
 (define-key key-translation-map [?\C-h] [?\C-?])
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key (kbd "C-c w") 'whitespace-mode)
-(global-set-key (kbd "RET") 'newline-and-indent)
-(global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "M-k") 'kill-this-buffer)
 (global-set-key (kbd "M-0") 'delete-window)
 (global-set-key (kbd "M-1") 'delete-other-windows)
@@ -323,7 +321,6 @@
 (global-set-key (kbd "M-3") 'split-window-horizontally)
 
 (define-key evil-visual-state-map (kbd "M-q") 'fill-region)
-(define-key evil-insert-state-map (kbd "C-j") 'newline-and-indent)
 
 (add-hook 'prog-mode-hook
           (lambda ()
