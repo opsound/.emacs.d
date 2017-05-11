@@ -53,7 +53,7 @@
     (global-evil-leader-mode)
     (evil-leader/set-leader "<SPC>")
     (evil-leader/set-key
-      "+" 'text-scale-increase
+      "=" 'text-scale-increase
       "-" 'text-scale-decrease
       "." 'ffap
       "TAB" 'alternate-buffer
