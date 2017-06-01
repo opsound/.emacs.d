@@ -1,6 +1,3 @@
-(setq-default gc-cons-threshold 268435456
-              gc-cons-percentage 0.6)
-
 (require 'package)
 (setq package-archives '(("melpa" . "http://melpa.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")))
