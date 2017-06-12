@@ -178,8 +178,7 @@
   :config
   (global-set-key (kbd "C-'") 'tiny-expand))
 
-(use-package iedit
-  :bind ("C-;" . iedit-mode))
+(use-package iedit)
 
 (use-package quickrun
   :config
