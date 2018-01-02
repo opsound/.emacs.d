@@ -423,17 +423,3 @@ In that case, insert the number."
         (company-complete-number (string-to-number k)))))
 
 ;; Custom set variables
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (function-args linum-relative speed-type counsel-gtags protobuf-mode cmake-mode clean-aindent-mode adaptive-wrap wgrep markdown-mode irony yasnippet use-package tiny smex rtags rainbow-delimiters quickrun paredit julia-shell ivy-hydra iedit helm-swoop helm-gtags flycheck expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit evil-magit evil-leader evil-exchange evil-escape elisp-slime-nav counsel-projectile company-jedi color-theme-sanityinc-tomorrow ace-window))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
