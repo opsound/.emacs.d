@@ -96,6 +96,18 @@
   (define-key company-active-map "\C-w" nil)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
+  (setq company-show-numbers t)
+  
+  (let ((map company-active-map))
+    (mapc
+     (lambda (x)
+       (define-key map (format "%d" x) 'ora-company-number))
+     (number-sequence 0 9))
+    (define-key map " " (lambda ()
+                          (interactive)
+                          (company-abort)
+                          (self-insert-and-exit 1)))
+    (define-key map (kbd "<return>") nil))
   (add-hook 'prog-mode-hook (lambda () (company-mode))))
 
 ;; ignore case for completion
@@ -396,6 +408,19 @@
 (defun os-switch-to-term ()
   (interactive)
   (do-applescript "tell application \"iTerm\" to activate"))
+
+(defun ora-company-number ()
+    "Forward to `company-complete-number'.
+
+Unless the number is potentially part of the candidate.
+In that case, insert the number."
+    (interactive)
+    (let* ((k (this-command-keys))
+           (re (concat "^" company-prefix k)))
+      (if (cl-find-if (lambda (s) (string-match re s))
+                      company-candidates)
+          (self-insert-command 1)
+        (company-complete-number (string-to-number k)))))
 
 ;; Custom set variables
 (custom-set-variables
