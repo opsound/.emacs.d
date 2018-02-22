@@ -146,6 +146,7 @@
     "i" 'ivy-switch-buffer
     "v" 'ivy-push-view
     "V" 'ivy-pop-view)
+  (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
   (use-package ivy-hydra))
 
 (use-package avy
