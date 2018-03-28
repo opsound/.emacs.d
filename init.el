@@ -200,7 +200,8 @@
     "f" 'counsel-find-file
     "j" 'counsel-git
     "l" 'counsel-imenu
-    "x" 'counsel-M-x)
+    "x" 'counsel-M-x
+    "?" 'counsel-rg)
   (use-package counsel-gtags
     :config
     (mapcar (lambda (mode)  
