@@ -379,16 +379,13 @@
             (adaptive-wrap-prefix-mode)
             (cwarn-mode)))
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-hook 'js2-mode-hook
+(add-hook 'c++-mode-hook
           (lambda ()
-            (setq js2-basic-offset 2)
-            (setq-local evil-shift-width js2-basic-offset)
-            (setq js2-strict-trailing-comma-warning nil)
-            (tern-mode)))
+            (setq flycheck-gcc-language-standard "c++17")
+            (setq flycheck-clang-language-standard "c++17")))
 
 (defun alternate-buffer ()
-  "Switch back and forth between current and last buffer"
+  "Switch back and forth between current and last buffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) t)))
 
