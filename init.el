@@ -220,7 +220,11 @@
 
 (use-package quickrun
   :config
-  (evil-leader/set-key "Q" 'quickrun))
+  (evil-leader/set-key "Q" 'quickrun)
+  (quickrun-add-command "c/gcc"
+    '((:exec . ("%c -std=c++17 %o -o %e %s"
+                "%e %a")))
+    :override t))
 
 (use-package magit
   :config
