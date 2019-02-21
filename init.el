@@ -144,6 +144,7 @@
   (projectile-global-mode 1)
   (setq projectile-completion-system 'ivy)
   (evil-leader/set-key "c" 'projectile-compile-project)
+  (evil-leader/set-key "p k" 'projectile-kill-buffers)
   
   (use-package counsel-projectile
     :config
@@ -230,12 +231,15 @@
   :config
   (evil-leader/set-key "g" 'magit-status))
 
-(use-package elpy
+(use-package anaconda-mode
   :config
-  (elpy-enable)
-  (evil-leader/set-key-for-mode 'python-mode
-    "k" 'elpy-goto-definition
-    "t" 'pop-tag-mark))
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (evil-leader/set-key "k" 'anaconda-mode-find-definitions)
+  (evil-leader/set-key "t" 'xref-pop-marker-stack)
+  (use-package company-anaconda
+    :config
+    (eval-after-load "company"
+      '(add-to-list 'company-backends '(company-anaconda :with company-capf)))))
 
 (use-package exec-path-from-shell
   :config
@@ -339,6 +343,7 @@
 (setq-default fill-column 80)
 (setq-default indent-tabs-mode nil)
 (show-paren-mode t)
+(setq python-shell-interpreter "python3")
 
 ;; font
 (set-default-font "Menlo-12")
@@ -368,7 +373,7 @@
 
 (add-hook 'c-mode-common-hook
           (lambda ()
-            (setq indent-tabs-mode t)
+            (setq indent-tabs-mode nil)
             (setq tab-width 4)
             (setq c-basic-offset 4)
             (setq evil-shift-width c-basic-offset)
@@ -387,6 +392,10 @@
           (lambda ()
             (setq flycheck-gcc-language-standard "c++17")
             (setq flycheck-clang-language-standard "c++17")))
+
+(add-hook 'text-mode-hook
+          (lambda ()
+            (visual-line-mode)))
 
 (defun alternate-buffer ()
   "Switch back and forth between current and last buffer."
