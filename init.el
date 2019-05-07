@@ -135,10 +135,6 @@
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
-(use-package yasnippet
-  :config
-  (yas-global-mode))
-
 (use-package projectile
   :config
   (projectile-global-mode 1)
