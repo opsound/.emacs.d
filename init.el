@@ -173,7 +173,8 @@
 (use-package swiper
   :init
   (global-unset-key "\M-s")
-  :bind ("M-s" . swiper-all)
+  :bind (("M-s" . swiper-all)
+         ("C-s" . swiper-isearch))
   :config
   (advice-add
    'swiper--action
@@ -184,8 +185,7 @@
 (use-package smex)
 
 (use-package counsel
-  :bind (("C-s" . counsel-grep-or-swiper)
-         ("M-x" . counsel-M-x)
+  :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("C-c g" . counsel-git)
          ("C-c j" . counsel-git-grep)
