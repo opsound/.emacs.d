@@ -380,7 +380,6 @@
             (c-set-offset 'brace-list-open 0)
             (c-set-offset 'innamespace 0)
             (electric-pair-mode)
-            (yas-minor-mode)
             (adaptive-wrap-prefix-mode)
             (cwarn-mode)))
 
