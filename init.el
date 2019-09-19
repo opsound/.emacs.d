@@ -30,6 +30,12 @@
   :config
   (evil-mode 1)
 
+  (use-package evil-snipe
+    :config
+    (evil-snipe-mode 1)
+    (evil-snipe-override-mode 1)
+    (setq evil-snipe-scope 'buffer))
+
   (use-package evil-surround
     :config
     (global-evil-surround-mode)
